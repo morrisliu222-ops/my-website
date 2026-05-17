@@ -13,163 +13,300 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: #0f0f1a;
-      color: #e0e0e0;
+      background: #f5f5f5;
+      color: #222;
+      display: flex;
       min-height: 100vh;
+    }
+
+    /* 側邊欄 */
+    .sidebar {
+      width: 220px;
+      background: #fff;
+      border-right: 1px solid #e0e0e0;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      transition: width 0.25s ease;
+      overflow: hidden;
+      flex-shrink: 0;
     }
 
-    .hero {
-      text-align: center;
-      padding: 60px 24px;
-      max-width: 700px;
+    .sidebar.collapsed {
+      width: 0;
+      border-right: none;
     }
 
-    .hero h1 {
-      font-size: clamp(2rem, 6vw, 4rem);
-      font-weight: 800;
-      background: linear-gradient(135deg, #a78bfa, #60a5fa, #34d399);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 20px;
-      line-height: 1.2;
+    .sidebar-header {
+      padding: 20px 20px 16px;
+      border-bottom: 1px solid #e0e0e0;
+      white-space: nowrap;
     }
 
-    .hero p {
-      font-size: 1.2rem;
-      color: #9ca3af;
-      line-height: 1.7;
-      margin-bottom: 40px;
+    .sidebar-header h2 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #555;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
     }
 
-    .buttons {
+    .sidebar nav {
+      padding: 12px 0;
+    }
+
+    /* 可展開選單群組 */
+    .menu-group {
+      margin-bottom: 4px;
+    }
+
+    .menu-group-title {
       display: flex;
-      gap: 16px;
-      justify-content: center;
-      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #333;
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
     }
 
-    .btn {
-      padding: 14px 32px;
-      border-radius: 8px;
+    .menu-group-title:hover {
+      background: #f5f5f5;
+    }
+
+    .menu-group-title .arrow {
+      font-size: 0.7rem;
+      color: #999;
+      transition: transform 0.2s;
+    }
+
+    .menu-group.open .arrow {
+      transform: rotate(90deg);
+    }
+
+    .menu-group-items {
+      display: none;
+    }
+
+    .menu-group.open .menu-group-items {
+      display: block;
+    }
+
+    .menu-group-items a {
+      display: block;
+      padding: 7px 20px 7px 32px;
+      font-size: 0.875rem;
+      color: #555;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .menu-group-items a:hover {
+      background: #f0f0f0;
+      color: #111;
+    }
+
+    .menu-group-items a.active {
+      color: #1a1a1a;
+      font-weight: 600;
+      border-left: 2px solid #333;
+      padding-left: 30px;
+    }
+
+    /* 頂部列 */
+    .layout {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-width: 0;
+    }
+
+    header {
+      background: #fff;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 0 28px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .toggle-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 4px;
+      color: #555;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      line-height: 1;
+    }
+
+    .toggle-btn:hover {
+      background: #f0f0f0;
+    }
+
+    header h1 {
       font-size: 1rem;
       font-weight: 600;
-      text-decoration: none;
-      transition: all 0.2s;
-      cursor: pointer;
+      color: #222;
+    }
+
+    /* 主內容 */
+    main {
+      flex: 1;
+      padding: 40px 48px;
+      max-width: 780px;
+    }
+
+    .page-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #111;
+      margin-bottom: 10px;
+    }
+
+    .page-subtitle {
+      font-size: 0.95rem;
+      color: #777;
+      margin-bottom: 36px;
+    }
+
+    .divider {
       border: none;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #7c3aed, #3b82f6);
-      color: white;
-    }
-
-    .btn-primary:hover {
-      opacity: 0.85;
-      transform: translateY(-2px);
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: #a78bfa;
-      border: 2px solid #7c3aed;
-    }
-
-    .btn-outline:hover {
-      background: #7c3aed22;
-      transform: translateY(-2px);
+      border-top: 1px solid #e0e0e0;
+      margin-bottom: 36px;
     }
 
     .cards {
-      display: flex;
-      gap: 24px;
-      margin-top: 80px;
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 0 24px;
-      max-width: 900px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
     }
 
     .card {
-      background: #1a1a2e;
-      border: 1px solid #2d2d4e;
-      border-radius: 12px;
-      padding: 28px;
-      flex: 1;
-      min-width: 220px;
-      max-width: 260px;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-
-    .card:hover {
-      border-color: #7c3aed;
-      transform: translateY(-4px);
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 22px 20px;
     }
 
     .card-icon {
-      font-size: 2rem;
-      margin-bottom: 16px;
+      font-size: 1.4rem;
+      margin-bottom: 12px;
     }
 
     .card h3 {
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 10px;
-      color: #f3f4f6;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #222;
     }
 
     .card p {
-      font-size: 0.95rem;
-      color: #6b7280;
+      font-size: 0.85rem;
+      color: #777;
       line-height: 1.6;
     }
 
     footer {
-      margin-top: 100px;
-      padding: 24px;
-      color: #4b5563;
-      font-size: 0.9rem;
-      text-align: center;
+      padding: 20px 48px;
+      font-size: 0.8rem;
+      color: #aaa;
+      border-top: 1px solid #e0e0e0;
     }
   </style>
 </head>
 <body>
 
-  <div class="hero">
-    <h1>歡迎來到我的網站</h1>
-    <p>這是我的第一個網頁，透過 GitHub 和 Vercel 部署上線。</p>
-    <div class="buttons">
-      <a class="btn btn-primary" href="#">了解更多</a>
-      <a class="btn btn-outline" href="#">聯絡我</a>
+  <!-- 側邊欄 -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h2>選單</h2>
     </div>
+    <nav>
+      <div class="menu-group open" id="group1">
+        <div class="menu-group-title" onclick="toggleGroup('group1')">
+          關於我 <span class="arrow">&#9654;</span>
+        </div>
+        <div class="menu-group-items">
+          <a href="#" class="active">首頁</a>
+          <a href="#">自我介紹</a>
+          <a href="#">聯絡方式</a>
+        </div>
+      </div>
+
+      <div class="menu-group" id="group2">
+        <div class="menu-group-title" onclick="toggleGroup('group2')">
+          作品集 <span class="arrow">&#9654;</span>
+        </div>
+        <div class="menu-group-items">
+          <a href="#">設計</a>
+          <a href="#">程式</a>
+          <a href="#">攝影</a>
+        </div>
+      </div>
+
+      <div class="menu-group" id="group3">
+        <div class="menu-group-title" onclick="toggleGroup('group3')">
+          文章 <span class="arrow">&#9654;</span>
+        </div>
+        <div class="menu-group-items">
+          <a href="#">技術筆記</a>
+          <a href="#">生活雜記</a>
+        </div>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- 主體 -->
+  <div class="layout">
+    <header>
+      <button class="toggle-btn" onclick="toggleSidebar()" title="展開/收合選單">
+        &#9776;
+      </button>
+      <h1>我的網站</h1>
+    </header>
+
+    <main>
+      <div class="page-title">歡迎</div>
+      <div class="page-subtitle">這是我的第一個網頁，透過 GitHub 和 Vercel 部署上線。</div>
+      <hr class="divider" />
+      <div class="cards">
+        <div class="card">
+          <div class="card-icon">🚀</div>
+          <h3>快速部署</h3>
+          <p>使用 Vercel 讓網站秒速上線，全球 CDN 加速。</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🎨</div>
+          <h3>自訂設計</h3>
+          <p>用 HTML 和 CSS 打造屬於自己風格的頁面。</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🔧</div>
+          <h3>持續更新</h3>
+          <p>推送到 GitHub 後，Vercel 自動重新部署。</p>
+        </div>
+      </div>
+    </main>
+
+    <footer>&copy; 2026 我的網站 · 由 Vercel 託管</footer>
   </div>
 
-  <div class="cards">
-    <div class="card">
-      <div class="card-icon">🚀</div>
-      <h3>快速部署</h3>
-      <p>使用 Vercel 讓網站秒速上線，全球 CDN 加速。</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">🎨</div>
-      <h3>自訂設計</h3>
-      <p>用 HTML 和 CSS 打造屬於自己風格的頁面。</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">🔧</div>
-      <h3>持續更新</h3>
-      <p>推送到 GitHub 後，Vercel 自動重新部署。</p>
-    </div>
-  </div>
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('collapsed');
+    }
 
-  <footer>
-    &copy; 2026 我的網站 · 由 Vercel 託管
-  </footer>
+    function toggleGroup(id) {
+      document.getElementById(id).classList.toggle('open');
+    }
+  </script>
 
 </body>
 </html>
