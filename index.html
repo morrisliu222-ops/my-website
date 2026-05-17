@@ -213,6 +213,31 @@
       line-height: 1.6;
     }
 
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .photo-grid img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid #e0e0e0;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .photo-grid img:hover {
+      opacity: 0.85;
+    }
+
+    .photo-empty {
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+
     .prose p {
       font-size: 1rem;
       color: #444;
@@ -254,7 +279,7 @@
         <div class="menu-group-items">
           <a href="#">設計</a>
           <a href="#">程式</a>
-          <a href="#">攝影</a>
+          <a href="#" onclick="showPage('photo', this)">攝影</a>
         </div>
       </div>
 
@@ -284,6 +309,17 @@
       <section id="page-home">
         <div class="page-title">歡迎</div>
         <div class="page-subtitle">這是我的第一個網頁，透過 GitHub 和 Vercel 部署上線。</div>
+      </section>
+
+      <!-- 攝影集 -->
+      <section id="page-photo" style="display:none">
+        <div class="page-title">攝影集</div>
+        <hr class="divider" />
+        <div class="photo-grid">
+          <!-- 在這裡加圖片，複製下面這行並換掉 src 的路徑 -->
+          <!-- <img src="images/你的圖片.jpg" alt="照片說明" /> -->
+        </div>
+        <p class="photo-empty">尚未放入任何照片。</p>
       </section>
 
       <!-- 自我介紹 -->
