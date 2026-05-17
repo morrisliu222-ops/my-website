@@ -213,6 +213,13 @@
       line-height: 1.6;
     }
 
+    .prose p {
+      font-size: 1rem;
+      color: #444;
+      line-height: 1.9;
+      max-width: 600px;
+    }
+
     footer {
       padding: 20px 48px;
       font-size: 0.8rem;
@@ -234,8 +241,8 @@
           關於我 <span class="arrow">&#9654;</span>
         </div>
         <div class="menu-group-items">
-          <a href="#" class="active">首頁</a>
-          <a href="#">自我介紹</a>
+          <a href="#" class="active" onclick="showPage('home', this)">首頁</a>
+          <a href="#" onclick="showPage('about', this)">自我介紹</a>
           <a href="#">聯絡方式</a>
         </div>
       </div>
@@ -273,26 +280,38 @@
     </header>
 
     <main>
-      <div class="page-title">歡迎</div>
-      <div class="page-subtitle">這是我的第一個網頁，透過 GitHub 和 Vercel 部署上線。</div>
-      <hr class="divider" />
-      <div class="cards">
-        <div class="card">
-          <div class="card-icon">🚀</div>
-          <h3>快速部署</h3>
-          <p>使用 Vercel 讓網站秒速上線，全球 CDN 加速。</p>
+      <!-- 首頁 -->
+      <section id="page-home">
+        <div class="page-title">歡迎</div>
+        <div class="page-subtitle">這是我的第一個網頁，透過 GitHub 和 Vercel 部署上線。</div>
+        <hr class="divider" />
+        <div class="cards">
+          <div class="card">
+            <div class="card-icon">🚀</div>
+            <h3>快速部署</h3>
+            <p>使用 Vercel 讓網站秒速上線，全球 CDN 加速。</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">🎨</div>
+            <h3>自訂設計</h3>
+            <p>用 HTML 和 CSS 打造屬於自己風格的頁面。</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">🔧</div>
+            <h3>持續更新</h3>
+            <p>推送到 GitHub 後，Vercel 自動重新部署。</p>
+          </div>
         </div>
-        <div class="card">
-          <div class="card-icon">🎨</div>
-          <h3>自訂設計</h3>
-          <p>用 HTML 和 CSS 打造屬於自己風格的頁面。</p>
+      </section>
+
+      <!-- 自我介紹 -->
+      <section id="page-about" style="display:none">
+        <div class="page-title">自我介紹</div>
+        <hr class="divider" />
+        <div class="prose">
+          <p>我是一個對生活充滿好奇心的普通人，平時喜歡透過學習新事物來拓展自己的視野。工作之餘，習慣用閱讀和音樂放鬆心情。不擅長華麗的自我包裝，但做事認真、重視誠信。希望透過這個網站，慢慢記錄下自己的想法與成長。</p>
         </div>
-        <div class="card">
-          <div class="card-icon">🔧</div>
-          <h3>持續更新</h3>
-          <p>推送到 GitHub 後，Vercel 自動重新部署。</p>
-        </div>
-      </div>
+      </section>
     </main>
 
     <footer>&copy; 2026 我的網站 · 由 Vercel 託管</footer>
@@ -305,6 +324,13 @@
 
     function toggleGroup(id) {
       document.getElementById(id).classList.toggle('open');
+    }
+
+    function showPage(name, link) {
+      document.querySelectorAll('main section').forEach(s => s.style.display = 'none');
+      document.getElementById('page-' + name).style.display = 'block';
+      document.querySelectorAll('.menu-group-items a').forEach(a => a.classList.remove('active'));
+      if (link) link.classList.add('active');
     }
   </script>
 
