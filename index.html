@@ -520,6 +520,32 @@
       margin: 20px 0 8px;
     }
     .resume-group-label:first-of-type { margin-top: 0; }
+    .sidebar-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      z-index: 199;
+    }
+    .sidebar-backdrop.show { display: block; }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        top: 0; left: 0;
+        height: 100vh;
+        z-index: 200;
+        width: 220px;
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+        box-shadow: 2px 0 12px rgba(0,0,0,0.15);
+      }
+      .sidebar.collapsed { width: 220px; }
+      .sidebar.collapsed nav { display: block; }
+      .sidebar.mobile-open { transform: translateX(0); }
+      main { padding: 24px 20px; }
+      footer { padding: 16px 20px; }
+    }
   </style>
 </head>
 <body>
@@ -564,6 +590,8 @@
       </div>
     </nav>
   </aside>
+
+  <div id="sidebar-backdrop" class="sidebar-backdrop" onclick="toggleSidebar()"></div>
 
   <!-- 主體 -->
   <div class="layout">
@@ -673,7 +701,7 @@
       <section id="page-contact" style="display:none">
         <div class="page-title">聯絡方式</div>
         <hr class="divider" />
-        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfd8JwgBdQ6ZzbTpInWHLadsZR7VK4gcv-3UpE0go_JV2b-wQ/viewform?embedded=true" width="640" height="584" frameborder="0" marginheight="0" marginwidth="0">載入中…</iframe>
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfd8JwgBdQ6ZzbTpInWHLadsZR7VK4gcv-3UpE0go_JV2b-wQ/viewform?embedded=true" width="100%" height="584" frameborder="0" marginheight="0" marginwidth="0">載入中…</iframe>
       </section>
 
       <!-- 自我介紹 -->
@@ -951,7 +979,12 @@
     }
 
     function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('collapsed');
+      if (window.innerWidth <= 768) {
+        document.getElementById('sidebar').classList.toggle('mobile-open');
+        document.getElementById('sidebar-backdrop').classList.toggle('show');
+      } else {
+        document.getElementById('sidebar').classList.toggle('collapsed');
+      }
     }
 
     function toggleGroup(id) {
@@ -1118,6 +1151,10 @@
       if (name === 'blog') renderBlog();
       if (name === 'tech') renderTechList();
       if (name === 'photo') renderPhotoAlbumList();
+      if (window.innerWidth <= 768) {
+        document.getElementById('sidebar').classList.remove('mobile-open');
+        document.getElementById('sidebar-backdrop').classList.remove('show');
+      }
     }
   </script>
 
