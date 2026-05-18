@@ -520,6 +520,8 @@
       margin: 20px 0 8px;
     }
     .resume-group-label:first-of-type { margin-top: 0; }
+    .mobile-menu-btn { display: none; }
+
     .sidebar-backdrop {
       display: none;
       position: fixed;
@@ -543,6 +545,7 @@
       .sidebar.collapsed { width: 220px; }
       .sidebar.collapsed nav { display: block; }
       .sidebar.mobile-open { transform: translateX(0); }
+      .mobile-menu-btn { display: flex; }
       main { padding: 24px 20px; }
       footer { padding: 16px 20px; }
     }
@@ -596,6 +599,7 @@
   <!-- 主體 -->
   <div class="layout">
     <header>
+      <button class="toggle-btn mobile-menu-btn" onclick="toggleSidebar()" title="展開選單">&#9776;</button>
       <h1>我的網站</h1>
     </header>
 
