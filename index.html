@@ -521,6 +521,7 @@
     }
     .resume-group-label:first-of-type { margin-top: 0; }
     .mobile-menu-btn { display: none; }
+    .rc-pdf-summary { display: none; }
 
     .sidebar-backdrop {
       display: none;
@@ -546,6 +547,8 @@
       .sidebar.collapsed nav { display: block; }
       .sidebar.mobile-open { transform: translateX(0); }
       .mobile-menu-btn { display: flex; }
+      .rc-pdf-iframe { display: none; }
+      .rc-pdf-summary { display: block; }
       main { padding: 24px 20px; }
       footer { padding: 16px 20px; }
     }
@@ -668,10 +671,49 @@
         </div>
         <div id="design-pdf" style="display:none">
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
-            <button onclick="closeDesignDoc()" style="background:none;border:1px solid #ccc;border-radius:6px;padding:6px 14px;cursor:pointer;font-size:0.85rem;color:#555">← 返回</button>
+            <button onclick="closeDesignDoc()" style="background:none;border:1px solid #ccc;border-radius:6px;padding:6px 14px;cursor:pointer;font-size:0.85rem;color:#555;margin-top:0">← 返回</button>
             <div class="page-title" style="margin-bottom:0">RC Car 技術報告</div>
           </div>
-          <iframe src="RC_Car_Technical_Report_v2_website.pdf" width="100%" height="800px" style="border:1px solid #e0e0e0;border-radius:8px"></iframe>
+
+          <!-- 桌機：PDF iframe -->
+          <iframe class="rc-pdf-iframe" src="RC_Car_Technical_Report_v2_website.pdf" width="100%" height="800px" style="border:1px solid #e0e0e0;border-radius:8px"></iframe>
+
+          <!-- 手機：文字摘要 -->
+          <div class="rc-pdf-summary tech-article">
+            <h2>專案概述</h2>
+            <p>開發一套完整的雙 Arduino 無線遙控車系統，涵蓋遙控端（發射器）與車體端（接收器）兩套韌體，採用 nRF24L01+ 2.4GHz 無線模組進行雙向通訊，整合 MPU6050 六軸慣性測量單元、OLED 顯示器、電池電壓監控及伺服馬達轉向控制。</p>
+
+            <h2>硬體規格</h2>
+            <ul>
+              <li>主控平台：Arduino Uno / Nano（ATmega328P）</li>
+              <li>無線模組：nRF24L01+，頻道 110，速率 250 kbps</li>
+              <li>轉向機構：伺服馬達，最大範圍 ±35°</li>
+              <li>驅動馬達：雙 H 橋（L298N），PWM 速度控制</li>
+              <li>姿態感測：MPU6050，200 次校準取平均偏移量</li>
+              <li>電池監控：雙節 18650，內部 1.1V 參考，11:1 分壓</li>
+              <li>通訊延遲目標：&lt; 40 ms</li>
+            </ul>
+
+            <h2>核心功能</h2>
+            <ul>
+              <li><strong>有限狀態機（FSM）通訊管理</strong>：斷線時車體自動停止，重連後平滑恢復，遙控端 10 秒無操作自動進入 IDLE 休眠。</li>
+              <li><strong>三重資料完整性驗證</strong>：XOR 校驗、封包 ID 去重、數值範圍檢查，防止雜訊導致誤動作。</li>
+              <li><strong>電池健康監控</strong>：連續 5 次量測異常觸發強制停車，結果即時回傳顯示於遙控器 OLED。</li>
+              <li><strong>驅動模式切換</strong>：支援 A / B / C 三種模式（全功能、低速、中立），循環切換即時顯示。</li>
+              <li><strong>看門狗計時器（WDTO_1S）</strong>：防止韌體死鎖，確保系統可靠運行。</li>
+            </ul>
+
+            <h2>技術亮點</h2>
+            <ul>
+              <li>嵌入式 C++ 結構體模組化設計（struct-based modular design）</li>
+              <li>nRF24L01+ ACK Payload 雙向回傳，無需額外發送週期</li>
+              <li>OLED 靜態／動態分離更新，降低 I2C 傳輸量與畫面閃爍</li>
+              <li>各感測器與顯示器採獨立更新週期（250 / 300 / 500 ms），不阻塞主迴圈</li>
+            </ul>
+          </div>
+
+          <!-- 下載按鈕 -->
+          <a href="RC_Car_Technical_Report_v2_website.pdf" download style="display:inline-block;margin-top:24px;padding:10px 20px;background:var(--accent);color:#fff;border-radius:8px;text-decoration:none;font-size:0.9rem">↓ 下載完整技術報告 PDF</a>
         </div>
       </section>
 
