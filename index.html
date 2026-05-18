@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>我的網站</title>
   <style>
+    :root { --accent: #3d5a80; }
+
     * {
       margin: 0;
       padding: 0;
@@ -127,9 +129,9 @@
     }
 
     .menu-group-items a.active {
-      color: #1a1a1a;
+      color: var(--accent);
       font-weight: 600;
-      border-left: 2px solid #333;
+      border-left: 2px solid var(--accent);
       padding-left: 30px;
     }
 
@@ -212,6 +214,12 @@
       border: 1px solid #e0e0e0;
       border-radius: 8px;
       padding: 22px 20px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .card:hover {
+      box-shadow: 0 6px 18px rgba(61,90,128,0.13);
+      transform: translateY(-2px);
     }
 
     .card-icon {
@@ -262,7 +270,9 @@
       color: #444;
       line-height: 1.9;
       max-width: 600px;
+      margin-bottom: 1.4em;
     }
+    .prose p:last-child { margin-bottom: 0; }
 
     .post-item {
       border-bottom: 1px solid #e0e0e0;
@@ -307,8 +317,13 @@
       transition: box-shadow 0.15s;
     }
 
+    .album-card {
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
     .album-card:hover {
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 6px 18px rgba(61,90,128,0.13);
+      transform: translateY(-2px);
     }
 
     .album-card-cover {
@@ -363,8 +378,13 @@
       margin-bottom: 12px;
     }
 
+    .tech-post-item {
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
     .tech-post-item:hover {
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      box-shadow: 0 6px 18px rgba(61,90,128,0.13);
+      transform: translateY(-2px);
     }
 
     .tech-post-item .post-date {
@@ -444,6 +464,62 @@
       color: #aaa;
       border-top: 1px solid #e0e0e0;
     }
+
+    .resume { max-width: 640px; margin-top: 36px; }
+    .resume-section { margin-bottom: 32px; }
+    .resume-section h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #111;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #e0e0e0;
+      margin-bottom: 14px;
+    }
+    .resume-entry { margin-bottom: 14px; }
+    .resume-entry-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+    .resume-entry-year { font-size: 0.82rem; color: #aaa; white-space: nowrap; }
+    .resume-entry-title { font-size: 0.95rem; font-weight: 600; color: #222; }
+    .resume-entry-sub { font-size: 0.85rem; color: #666; }
+    .resume-entry p, .resume-section > p {
+      font-size: 0.9rem; color: #555; line-height: 1.8; margin-bottom: 4px;
+    }
+    .resume-entry ul, .resume-section ul {
+      padding-left: 18px; margin: 4px 0 0;
+    }
+    .resume-entry li, .resume-section li {
+      font-size: 0.9rem; color: #555; line-height: 1.8;
+    }
+    .resume-skills { border-collapse: collapse; width: 100%; }
+    .resume-skills td {
+      font-size: 0.88rem; color: #555; padding: 5px 12px 5px 0; vertical-align: top; line-height: 1.7;
+    }
+    .resume-skills td:first-child {
+      color: #888; white-space: nowrap; width: 80px;
+    }
+    .resume-project { margin-bottom: 14px; }
+    .resume-project h3 {
+      font-size: 0.92rem; font-weight: 600; color: #333; margin-bottom: 4px;
+    }
+    .resume-project p { font-size: 0.88rem; color: #666; line-height: 1.8; }
+    .resume-group {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 16px 20px 10px;
+      margin-bottom: 14px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    .resume-group-label {
+      font-size: 0.9rem; font-weight: 600; color: #444;
+      margin: 20px 0 8px;
+    }
+    .resume-group-label:first-of-type { margin-top: 0; }
   </style>
 </head>
 <body>
@@ -499,7 +575,12 @@
       <!-- 首頁 -->
       <section id="page-home">
         <div class="page-title">歡迎</div>
-        <div class="page-subtitle">這是我的第一個網頁，透過 GitHub 和 Vercel 部署上線。</div>
+        <div class="page-subtitle"></div>
+        <div class="prose">
+          <p>哈囉！歡迎來到我的網站~</p>
+          <p>我是理工科背景，具備電子材料、機電整合與程式開發的跨領域能力，曾於工研院材化所從事自動化量測系統開發與電子材料研究相關工作。</p>
+          <p>我熱衷將技術轉化為實際可用的工具，這裡收錄我的作品、技術筆記與生活雜記，也是自己持續前進的紀錄，工作之外喜歡閱讀、運動、兜風與音樂，對生活和工程保持同樣的好奇心。</p>
+        </div>
       </section>
 
       <!-- 攝影集 -->
@@ -542,7 +623,16 @@
               <h3>RC Car 技術報告</h3>
               <p>點擊展開查看完整專案技術文件</p>
             </div>
+            <div class="card" style="cursor:pointer" onclick="openDesignProject('esp32')">
+              <div class="card-icon">🌤️</div>
+              <h3>ESP32 室內外天氣站</h3>
+              <p>結合 DHT11 感測器與 Open-Meteo API，即時顯示室內外溫濕度與降雨預報，內建 Web 設定介面。</p>
+            </div>
           </div>
+        </div>
+        <div id="design-project-view" style="display:none">
+          <button onclick="closeDesignProject()" style="background:none;border:1px solid #ccc;border-radius:6px;padding:6px 14px;cursor:pointer;font-size:0.85rem;color:#555;margin-bottom:24px">← 返回</button>
+          <div id="design-project-content" class="tech-article"></div>
         </div>
         <div id="design-pdf" style="display:none">
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
@@ -592,6 +682,120 @@
         <hr class="divider" />
         <div class="prose">
           <p>我是一個對生活充滿好奇心的普通人，平時喜歡透過學習新事物來拓展自己的視野。工作之餘，習慣用閱讀和音樂放鬆心情。不擅長華麗的自我包裝，但做事認真、重視誠信。希望透過這個網站，慢慢記錄下自己的想法與成長。我有一個抹布狗鄰居、一個優比狗鄰居、一個長毛狗鄰居。</p>
+        </div>
+
+        <div class="resume">
+          <div class="resume-section">
+            <h2>簡歷</h2>
+            <ul>
+              <li>畢業於國立成功大學工程科學系，具備機械、電機與資訊工程跨領域背景。</li>
+              <li>曾於工研院材化所電子陶瓷及模組化實驗室擔任助理工程師，參與多項材料與量測系統開發專案。</li>
+              <li>工作內容涵蓋機電整合系統設計、自動化量測系統開發、控制流程最佳化與數據分析。</li>
+              <li>熟悉 MATLAB、Python 與 C/C++ 程式開發，具備系統整合、測試驗證與跨領域工程合作經驗。</li>
+            </ul>
+          </div>
+
+          <div class="resume-section">
+            <h2>學歷</h2>
+            <div class="resume-entry">
+              <div class="resume-entry-meta">
+                <span class="resume-entry-year">2019–2022</span>
+                <span class="resume-entry-title">國立成功大學工程科學系學士</span>
+                <span class="resume-entry-sub">台南市</span>
+              </div>
+              <p>主修涵蓋機械、電機工程領域。主要課程包含：力學、電學、程式設計、機電整合與數值建模等。</p>
+            </div>
+            <div class="resume-entry">
+              <div class="resume-entry-meta">
+                <span class="resume-entry-year">2018–2019</span>
+                <span class="resume-entry-title">國立中正大學機械工程學系</span>
+                <span class="resume-entry-sub">嘉義縣</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="resume-section">
+            <h2>技能</h2>
+            <table class="resume-skills">
+              <tr><td>程式語言</td><td>MATLAB、Python、C/C++、HTML / JavaScript、Power Automate、LaTeX</td></tr>
+              <tr><td>工程能力</td><td>機電整合系統設計、自動化量測系統開發、控制流程最佳化</td></tr>
+              <tr><td>工程軟體</td><td>MATLAB、SolidWorks</td></tr>
+              <tr><td>量測設備</td><td>網路分析儀（VNA）、材料熱分析設備、電性量測系統</td></tr>
+              <tr><td>語言能力</td><td>英文 TOEIC 805</td></tr>
+            </table>
+          </div>
+
+          <div class="resume-section">
+            <h2>工作經歷</h2>
+            <div class="resume-entry">
+              <div class="resume-entry-meta">
+                <span class="resume-entry-year">2023.07–2025.03</span>
+                <span class="resume-entry-sub">助理工程師</span>
+                <span class="resume-entry-title">工研院材化所電子材料實驗室</span>
+                <span class="resume-entry-sub">新竹市</span>
+              </div>
+              <ul>
+                <li>參與電子陶瓷（LTCC）材料研發專案，執行實驗設計、製程測試與數據分析。</li>
+                <li>開發自動化量測系統，使用 MATLAB，整合量測治具、網路分析儀與馬達載台，大幅提升效率。</li>
+                <li>開發 Python 工具程式進行實驗資料整理與自動報表生成，提高數據處理效率。</li>
+                <li>協助實驗設備建置與系統測試驗證，並參與跨領域技術專案合作。</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="resume-section">
+            <h2>專案與工程經驗</h2>
+
+            <p class="resume-group-label">工研院</p>
+            <div class="resume-group">
+              <div class="resume-project">
+                <h3>自動化介電量測系統開發</h3>
+                <p>整合共振腔量測治具、網路分析儀（VNA）與馬達載台，使用 MATLAB 開發控制程式，建立自動化介電常數量測系統。</p>
+              </div>
+              <div class="resume-project">
+                <h3>Python 實驗資料管理工具</h3>
+                <p>開發 Python 應用程式，自動讀取量測檔案、分類資料並生成 Excel 報表，提高資料管理效率與可靠度。</p>
+              </div>
+              <div class="resume-project">
+                <h3>LTCC 材料與元件製程</h3>
+                <p>參與低溫共燒陶瓷材料開發與元件製程實驗，包含粉體分析、熱分析、電性量測與微結構觀測。</p>
+              </div>
+            </div>
+
+            <p class="resume-group-label">自主學習專案</p>
+            <div class="resume-group">
+              <div class="resume-project">
+                <h3>工廠薪資計算系統</h3>
+                <p>以 Python + Flask + SQLite 開發單機薪資管理系統，支援出勤匯入、加班費自動計算與勞健保試算，並可匯出薪資條 PDF 及銀行轉帳 Excel。</p>
+              </div>
+              <div class="resume-project">
+                <h3>RC Car 遙控車製作</h3>
+                <p>自製遙控車，涵蓋底盤結構設計、馬達驅動電路配置與遙控系統整合，並撰寫完整技術報告記錄設計流程與測試結果。</p>
+              </div>
+              <div class="resume-project">
+                <h3>ESP32 室內外天氣站</h3>
+                <p>以 ESP32 搭配 DHT11 感測器與 Open-Meteo API，即時顯示室內外溫濕度與降雨預報，內建 Web 設定介面，支援 Flash 儲存與 AP 備援模式。</p>
+              </div>
+              <div class="resume-project">
+                <h3>個人網站</h3>
+                <p>以原生 HTML / CSS / JavaScript 打造的個人作品集網站，透過 GitHub 版本控制並部署於 Vercel，收錄作品、技術筆記與生活雜記。</p>
+              </div>
+            </div>
+
+            <p class="resume-group-label">大學專題</p>
+            <div class="resume-group">
+              <div class="resume-project">
+                <h3>音響系統電路實作</h3>
+                <p>依電子電路與控制理論設計具備等化器的藍牙音響系統。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="resume-section">
+            <h2>興趣與職涯目標</h2>
+            <p><strong>興趣</strong>　閱讀、健身、音樂、旅行、科技探索與工程技術學習</p>
+            <p><strong>職涯目標</strong>　持續發展機電整合與系統工程能力，參與自動化設備與工程系統技術開發</p>
+          </div>
         </div>
       </section>
     </main>
@@ -820,6 +1024,78 @@
     function closeTechArticle() {
       document.getElementById('tech-article-view').style.display = 'none';
       document.getElementById('tech-list-view').style.display = 'block';
+    }
+
+    const designProjects = {
+      esp32: {
+        title: 'ESP32 室內外天氣站 v2.0',
+        date: '2026-05-18',
+        content: `
+          <h2>一、專案簡介</h2>
+          <p>以 ESP32 微控制器為核心，打造一台結合室內感測與室外天氣預報的智慧桌面天氣站。</p>
+
+          <h2>二、介紹</h2>
+          <p>本專案以 ESP32 微控制器為核心，打造一台結合室內感測與室外天氣預報的智慧天氣站。裝置可完全獨立運作，無需連接電腦，開機後自動連上 Wi-Fi，每 10 分鐘向 Open-Meteo 氣象 API 取得當日逐時溫度與降雨機率，並同步透過 DHT11 感測器即時量測室內溫度與相對濕度。</p>
+          <p>所有資訊以四個輪播頁面呈現於 16x2 LCD 螢幕，每 4 秒自動切換，讓使用者一眼掌握室內外狀況。裝置內建 Web Server，連上同一個 Wi-Fi 後只需在瀏覽器輸入 IP 即可修改 Wi-Fi 帳密與地理座標，設定值寫入 ESP32 的 Flash，重開機後不會消失。若 Wi-Fi 連線失敗，裝置會自動切換為 AP 熱點模式，讓使用者用手機直接連上並重新設定，不需燒錄程式即可完成調整。</p>
+          <p>整個專案從硬體接線、感測器校驗、API 串接、Web 介面設計到 Flash 儲存機制均由自己獨立完成，目標是做出一台「開箱即用、隨時可改設定」的實用桌面小工具。</p>
+
+          <h2>三、硬體組成</h2>
+          <ul>
+            <li>ESP32 開發板（主控）</li>
+            <li>DHT11 溫濕度感測器（量測室內溫度與濕度，接 GPIO4）</li>
+            <li>16x2 I²C LCD 顯示模組（SDA: GPIO21 / SCL: GPIO22）</li>
+          </ul>
+
+          <h2>四、核心功能</h2>
+          <ul>
+            <li>室內感測：每 5 秒讀取 DHT11，顯示即時溫度與濕度</li>
+            <li>室外預報：每 10 分鐘向 Open-Meteo API 取得未來 24 小時逐時溫度與降雨機率</li>
+            <li>LCD 輪播：每 4 秒自動切換四個頁面——室內溫濕度、室外預報、最高降雨機率、設定頁 IP</li>
+            <li>內建 Web Server：開機後可用瀏覽器連入 ESP32 IP 修改 Wi-Fi 帳密與經緯度座標</li>
+            <li>Flash 儲存設定：Wi-Fi 與座標資料寫入 Flash，重開機後設定不遺失</li>
+            <li>AP 備援模式：若 Wi-Fi 連線逾時（15 秒），自動開啟熱點「ESP32-WeatherSetup」，讓使用者透過瀏覽器重新設定</li>
+          </ul>
+
+          <h2>五、技術重點</h2>
+          <ul>
+            <li>語言 / 平台：C++（Arduino 框架）</li>
+            <li>函式庫：WiFi、HTTPClient、WebServer、Preferences（ESP32 內建）、ArduinoJson、LiquidCrystal_I2C、DHT sensor library</li>
+            <li>天氣 API：Open-Meteo（免費、免金鑰）</li>
+            <li>非同步架構：以 millis() 計時取代 delay()，讓 Web Server 與感測同時運作</li>
+          </ul>
+
+          <h2>六、主要挑戰與解法</h2>
+          <ul>
+            <li>設定彈性：硬編碼 Wi-Fi / 座標不實用 → 改用 Preferences 儲存至 Flash，並搭配 Web UI 修改</li>
+            <li>無網路時不當機：Wi-Fi 逾時改開 AP 模式，讓使用者隨時能調整設定</li>
+            <li>LCD 同時顯示多種資訊：設計 4 頁輪播機制，搭配 millis() 定時切換，不阻塞主迴圈</li>
+          </ul>
+
+          <h2>七、版本紀錄</h2>
+          <ul>
+            <li>v1.0 — 基本 DHT 顯示 + 固定 Wi-Fi 帳密</li>
+            <li>v2.0 — 新增 Flash 設定儲存、內建 Web Server、AP 備援模式、LCD 顯示 IP 頁</li>
+          </ul>
+        `
+      }
+    };
+
+    function openDesignProject(id) {
+      const project = designProjects[id];
+      if (!project) return;
+      document.getElementById('design-project-content').innerHTML = `
+        <div class="page-title">${project.title}</div>
+        <div class="article-meta"><span>${project.date}</span></div>
+        <hr class="divider" />
+        ${project.content}
+      `;
+      document.getElementById('design-intro').style.display = 'none';
+      document.getElementById('design-project-view').style.display = 'block';
+    }
+
+    function closeDesignProject() {
+      document.getElementById('design-project-view').style.display = 'none';
+      document.getElementById('design-intro').style.display = 'block';
     }
 
     function openDesignDoc() {
