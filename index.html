@@ -32,17 +32,35 @@
     }
 
     .sidebar.collapsed {
-      width: 0;
-      border-right: none;
+      width: 48px;
+    }
+
+    .sidebar.collapsed nav {
+      display: none;
     }
 
     .sidebar-header {
-      padding: 20px 20px 16px;
+      height: 52px;
+      padding: 0 14px;
       border-bottom: 1px solid #e0e0e0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
       white-space: nowrap;
+      flex-shrink: 0;
     }
 
-    .sidebar-header h2 {
+    .sidebar.collapsed .sidebar-header {
+      border-bottom: none;
+      justify-content: center;
+      padding: 0;
+    }
+
+    .sidebar.collapsed .sidebar-title {
+      display: none;
+    }
+
+    .sidebar-title {
       font-size: 0.95rem;
       font-weight: 600;
       color: #555;
@@ -144,6 +162,7 @@
       display: flex;
       align-items: center;
       line-height: 1;
+      flex-shrink: 0;
     }
 
     .toggle-btn:hover {
@@ -245,6 +264,180 @@
       max-width: 600px;
     }
 
+    .post-item {
+      border-bottom: 1px solid #e0e0e0;
+      padding: 20px 0;
+    }
+
+    .post-item:last-child {
+      border-bottom: none;
+    }
+
+    .post-date {
+      font-size: 0.8rem;
+      color: #aaa;
+      margin-bottom: 6px;
+    }
+
+    .post-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #222;
+      margin-bottom: 8px;
+    }
+
+    .post-content {
+      font-size: 0.9rem;
+      color: #555;
+      line-height: 1.8;
+    }
+
+    .album-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .album-card {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: box-shadow 0.15s;
+    }
+
+    .album-card:hover {
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .album-card-cover {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      display: block;
+      background: #f0f0f0;
+    }
+
+    .album-card-cover-empty {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: #f5f5f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: #ccc;
+    }
+
+    .album-card-body {
+      padding: 14px 16px;
+    }
+
+    .album-card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #222;
+      margin-bottom: 5px;
+    }
+
+    .album-card-desc {
+      font-size: 0.82rem;
+      color: #888;
+      line-height: 1.6;
+    }
+
+    .album-card-count {
+      font-size: 0.78rem;
+      color: #bbb;
+      margin-top: 8px;
+    }
+
+    .tech-post-item {
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 20px 24px;
+      background: #fff;
+      cursor: pointer;
+      transition: box-shadow 0.15s;
+      margin-bottom: 12px;
+    }
+
+    .tech-post-item:hover {
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .tech-post-item .post-date {
+      margin-bottom: 6px;
+    }
+
+    .tech-post-item .post-title {
+      font-size: 1.05rem;
+      margin-bottom: 0;
+    }
+
+    .tech-post-item .post-author {
+      font-size: 0.78rem;
+      color: #bbb;
+      margin-top: 6px;
+    }
+
+    .tech-article h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #111;
+      margin: 28px 0 10px;
+    }
+
+    .tech-article h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #333;
+      margin: 20px 0 8px;
+    }
+
+    .tech-article p {
+      font-size: 0.95rem;
+      color: #444;
+      line-height: 1.9;
+      margin-bottom: 12px;
+      max-width: 640px;
+    }
+
+    .tech-article ul {
+      padding-left: 20px;
+      margin-bottom: 12px;
+    }
+
+    .tech-article li {
+      font-size: 0.95rem;
+      color: #444;
+      line-height: 1.9;
+    }
+
+    .tech-article pre {
+      background: #f5f5f5;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      padding: 16px 18px;
+      overflow-x: auto;
+      margin-bottom: 12px;
+    }
+
+    .tech-article code {
+      font-family: "Cascadia Code", "Consolas", monospace;
+      font-size: 0.85rem;
+      color: #333;
+    }
+
+    .article-meta {
+      font-size: 0.82rem;
+      color: #aaa;
+      margin-bottom: 28px;
+      display: flex;
+      gap: 16px;
+    }
+
     footer {
       padding: 20px 48px;
       font-size: 0.8rem;
@@ -258,7 +451,8 @@
   <!-- 側邊欄 -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
-      <h2>選單</h2>
+      <button class="toggle-btn" onclick="toggleSidebar()" title="展開/收合選單">&#9776;</button>
+      <h2 class="sidebar-title">選單</h2>
     </div>
     <nav>
       <div class="menu-group open" id="group1">
@@ -268,7 +462,7 @@
         <div class="menu-group-items">
           <a href="#" class="active" onclick="showPage('home', this)">首頁</a>
           <a href="#" onclick="showPage('about', this)">自我介紹</a>
-          <a href="#">聯絡方式</a>
+          <a href="#" onclick="showPage('contact', this)">聯絡方式</a>
         </div>
       </div>
 
@@ -277,8 +471,8 @@
           作品集 <span class="arrow">&#9654;</span>
         </div>
         <div class="menu-group-items">
-          <a href="#">設計</a>
-          <a href="#">程式</a>
+          <a href="#" onclick="showPage('design', this)">設計</a>
+          <a href="#" onclick="showPage('code', this)">程式</a>
           <a href="#" onclick="showPage('photo', this)">攝影</a>
         </div>
       </div>
@@ -288,8 +482,8 @@
           文章 <span class="arrow">&#9654;</span>
         </div>
         <div class="menu-group-items">
-          <a href="#">技術筆記</a>
-          <a href="#">生活雜記</a>
+          <a href="#" onclick="showPage('tech', this)">技術筆記</a>
+          <a href="#" onclick="showPage('blog', this)">生活雜記</a>
         </div>
       </div>
     </nav>
@@ -298,9 +492,6 @@
   <!-- 主體 -->
   <div class="layout">
     <header>
-      <button class="toggle-btn" onclick="toggleSidebar()" title="展開/收合選單">
-        &#9776;
-      </button>
       <h1>我的網站</h1>
     </header>
 
@@ -313,13 +504,86 @@
 
       <!-- 攝影集 -->
       <section id="page-photo" style="display:none">
-        <div class="page-title">攝影集</div>
-        <hr class="divider" />
-        <div class="photo-grid">
-          <!-- 在這裡加圖片，複製下面這行並換掉 src 的路徑 -->
-          <!-- <img src="images/你的圖片.jpg" alt="照片說明" /> -->
-          <img src="螢幕擷取畫面 2026-05-17 160223.png" alt="MY RC CAR" />
+        <div id="photo-album-list-view">
+          <div class="page-title">攝影集</div>
+          <hr class="divider" />
+          <div id="photo-album-list" class="album-list"></div>
         </div>
+        <div id="photo-album-detail-view" style="display:none">
+          <button onclick="closePhotoAlbum()" style="background:none;border:1px solid #ccc;border-radius:6px;padding:6px 14px;cursor:pointer;font-size:0.85rem;color:#555;margin-bottom:24px">← 返回</button>
+          <div id="photo-album-title" class="page-title"></div>
+          <div id="photo-album-desc" style="font-size:0.9rem;color:#888;margin:6px 0 28px"></div>
+          <hr class="divider" />
+          <div id="photo-album-grid" class="photo-grid"></div>
+        </div>
+      </section>
+
+      <!-- 技術筆記 -->
+      <section id="page-tech" style="display:none">
+        <div id="tech-list-view">
+          <div class="page-title">技術筆記</div>
+          <hr class="divider" />
+          <div id="tech-list"></div>
+        </div>
+        <div id="tech-article-view" style="display:none">
+          <button onclick="closeTechArticle()" style="background:none;border:1px solid #ccc;border-radius:6px;padding:6px 14px;cursor:pointer;font-size:0.85rem;color:#555;margin-bottom:24px">← 返回</button>
+          <div id="tech-article-content" class="tech-article"></div>
+        </div>
+      </section>
+
+      <!-- 設計 -->
+      <section id="page-design" style="display:none">
+        <div id="design-intro">
+          <div class="page-title">設計</div>
+          <hr class="divider" />
+          <div class="cards">
+            <div class="card" id="btn-rc-report" style="cursor:pointer" onclick="openDesignDoc()">
+              <div class="card-icon">📄</div>
+              <h3>RC Car 技術報告</h3>
+              <p>點擊展開查看完整專案技術文件</p>
+            </div>
+          </div>
+        </div>
+        <div id="design-pdf" style="display:none">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+            <button onclick="closeDesignDoc()" style="background:none;border:1px solid #ccc;border-radius:6px;padding:6px 14px;cursor:pointer;font-size:0.85rem;color:#555">← 返回</button>
+            <div class="page-title" style="margin-bottom:0">RC Car 技術報告</div>
+          </div>
+          <iframe src="RC_Car_Technical_Report_v2_website.pdf" width="100%" height="800px" style="border:1px solid #e0e0e0;border-radius:8px"></iframe>
+        </div>
+      </section>
+
+      <!-- 程式作品集 -->
+      <section id="page-code" style="display:none">
+        <div id="code-list-view">
+          <div class="page-title">程式</div>
+          <hr class="divider" />
+          <div class="cards">
+            <div class="card" style="cursor:pointer;min-width:260px;max-width:340px" onclick="openCodeProject('payroll')">
+              <div class="card-icon">🏭</div>
+              <h3>工廠薪資計算系統</h3>
+              <p>Python + Flask + SQLite 單機薪資管理系統，支援出勤匯入、自動計算加班費與勞健保，並可匯出薪資條 PDF 與銀行轉帳 Excel。</p>
+            </div>
+          </div>
+        </div>
+        <div id="code-project-view" style="display:none">
+          <button onclick="closeCodeProject()" style="background:none;border:1px solid #ccc;border-radius:6px;padding:6px 14px;cursor:pointer;font-size:0.85rem;color:#555;margin-bottom:24px">← 返回</button>
+          <div id="code-project-content" class="tech-article"></div>
+        </div>
+      </section>
+
+      <!-- 生活雜記 -->
+      <section id="page-blog" style="display:none">
+        <div class="page-title">生活雜記</div>
+        <hr class="divider" />
+        <div id="blog-list"></div>
+      </section>
+
+      <!-- 聯絡方式 -->
+      <section id="page-contact" style="display:none">
+        <div class="page-title">聯絡方式</div>
+        <hr class="divider" />
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfd8JwgBdQ6ZzbTpInWHLadsZR7VK4gcv-3UpE0go_JV2b-wQ/viewform?embedded=true" width="640" height="584" frameborder="0" marginheight="0" marginwidth="0">載入中…</iframe>
       </section>
 
       <!-- 自我介紹 -->
@@ -335,7 +599,153 @@
     <footer>&copy; 2026 我的網站 · 由 Vercel 託管</footer>
   </div>
 
+  <script src="posts.js"></script>
+  <script src="tech-posts.js"></script>
+  <script src="photo-albums.js"></script>
   <script>
+    const codeProjects = {
+      payroll: {
+        title: '工廠薪資計算系統',
+        date: '2026-05-18',
+        content: `
+          <h2>一、專案簡介</h2>
+          <p>本系統是一套專為製造業工廠人資部門設計的單機薪資管理系統，以 Python + Flask + SQLite 技術組合建置，無需網路連線即可獨立運作，適合中小型工廠的日常薪資作業。</p>
+          <p>系統目標使用者為工廠 HR 人員，設計上特別強調操作直覺與流程清晰，所有功能均透過瀏覽器介面操作，不需具備任何程式或資料庫知識。介面採用 Bootstrap 5 設計，版面簡潔易讀，讓非技術背景的行政人員也能快速上手。</p>
+          <p>本系統支援月薪制，適用員工規模為 200 至 500 人。核心功能涵蓋員工資料管理、排班與出勤記錄匯入、自動化薪資計算（含加班費、勞健保、個人津貼），以及薪資條 PDF、月結報表、銀行轉帳檔等多種格式的匯出。所有薪資規則參數均儲存於資料庫，HR 可依公司政策自行調整，無需修改程式碼，確保系統具備良好的彈性與可維護性。</p>
+
+          <h2>二、技術架構</h2>
+          <ul>
+            <li>後端語言：Python 3.11+</li>
+            <li>Web 框架：Flask</li>
+            <li>資料庫：SQLite（檔案路徑：db/payroll.db）</li>
+            <li>前端樣式：Bootstrap 5（CDN 引入）</li>
+            <li>執行環境：Windows 11 + VS Code + PowerShell</li>
+            <li>相依套件：Flask、pandas、openpyxl、reportlab</li>
+            <li>未來打包：PyInstaller（計畫中）</li>
+          </ul>
+          <p>啟動方式：在 PowerShell 執行 <code>python main.py</code>，瀏覽器自動開啟 http://127.0.0.1:5000</p>
+
+          <h2>三、資料庫設計原則</h2>
+          <ul>
+            <li>金額以「分」為單位儲存（例：32,000 元 存為 3,200,000）</li>
+            <li>時間以 ISO 格式文字儲存</li>
+            <li>時數以「分鐘」為單位儲存</li>
+            <li>資料不物理刪除，僅透過 status 欄位標記狀態</li>
+            <li>薪資規則參數存於 PAYROLL_RULES 資料表，不寫死在程式碼中</li>
+            <li>所有資料庫連線統一透過 db.py 的 get_conn() 函式（啟用 FK 約束與 WAL 模式）</li>
+            <li>函式回傳型別一律為 dict 或 list[dict]，不回傳 sqlite3.Row 物件</li>
+          </ul>
+
+          <h2>四、資料表（共 15 張）</h2>
+          <ul>
+            <li>EMPLOYEE_TYPES — 員工類別（日班、輪班A-D、主管、業務、其他）</li>
+            <li>DEPARTMENTS — 部門主檔（支援父子階層）</li>
+            <li>EMPLOYEES — 員工主檔（含員工類別、勞工類型）</li>
+            <li>SHIFT_SCHEDULES — 排班表</li>
+            <li>CLOCK_RECORDS — 打卡原始紀錄</li>
+            <li>LEAVE_REQUESTS — 請假申請記錄</li>
+            <li>ATTENDANCE — 出勤明細（每人每班次一筆）</li>
+            <li>LABOR_INSURANCE_GRADES — 勞健保投保薪資級距</li>
+            <li>EMPLOYEE_ALLOWANCES — 個人津貼設定</li>
+            <li>PAYROLL_RULES — 薪資計算規則參數</li>
+            <li>PAYROLL_RECORDS — 薪資單主檔（每人每月一筆）</li>
+            <li>PAYROLL_ITEMS — 薪資明細（每筆薪資項目）</li>
+            <li>COMPANY_INFO — 公司基本資料</li>
+            <li>BACKUP_LOGS — 備份操作紀錄</li>
+            <li>PAYMENT_ITEM_DEFS — 薪資代號定義</li>
+          </ul>
+
+          <h2>五、重要薪資規則參數</h2>
+          <ul>
+            <li>平日加班前 2 小時倍率：1.34 倍</li>
+            <li>平日加班超過 2 小時倍率：1.67 倍</li>
+            <li>假日加班倍率：2.00 倍</li>
+            <li>每月計薪基準天數：30 天</li>
+            <li>每日正常工時：8 小時</li>
+            <li>最低工資：28,590 元（2025 年）</li>
+            <li>遲到容忍時間：5 分鐘；早退容忍時間：3 分鐘</li>
+            <li>最小計算加班時間：30 分鐘</li>
+          </ul>
+
+          <h2>六、核心業務流程</h2>
+          <h3>資料匯入順序（不可顛倒）</h3>
+          <ul>
+            <li>第 1 步：匯入排班表（import_schedule）</li>
+            <li>第 2 步：匯入請假資料（import_leave）</li>
+            <li>第 3 步：匯入打卡資料（import_clock）</li>
+          </ul>
+          <h3>薪資計算公式</h3>
+          <ul>
+            <li>時薪 = 本薪 ÷ 30 ÷ 8</li>
+            <li>加班費 = （加班分鐘 ÷ 60）× 時薪 × 對應倍率</li>
+            <li>健保費 = 個人健保費 × （1 + 眷屬人數）</li>
+            <li>計算全程使用 Python Decimal，採 ROUND_HALF_UP 四捨五入</li>
+          </ul>
+
+          <h2>七、匯出功能</h2>
+          <ul>
+            <li>薪資條 PDF：exports/薪資條_{年}年{月}月.pdf</li>
+            <li>月結報表 Excel：exports/月結報表_{年}年{月}月.xlsx</li>
+            <li>銀行轉帳 Excel：exports/銀行轉帳_{年}年{月}月.xlsx</li>
+          </ul>
+
+          <h2>八、專案結構</h2>
+          <pre><code>payroll/
+├── main.py               啟動入口
+├── db/                   SQLite 資料庫目錄
+├── exports/              匯出檔案目錄（PDF / Excel）
+└── src/
+    ├── db.py             資料庫連線、建表、初始化
+    ├── models.py         所有資料存取函式
+    ├── importer.py       三種 Excel 資料匯入邏輯
+    ├── calculator.py     薪資計算核心邏輯
+    ├── exporter.py       匯出 PDF、Excel
+    └── web/
+        ├── app.py        Flask 應用程式工廠
+        ├── routes/       各功能模組路由
+        ├── templates/    Jinja2 HTML 模板
+        └── static/       CSS 與 JavaScript</code></pre>
+
+          <h2>九、開發原則</h2>
+          <ul>
+            <li>confirmed 狀態的薪資單一律不可修改</li>
+            <li>資料只標記狀態，不做物理刪除</li>
+            <li>所有規則參數存於資料庫，不寫死在程式碼</li>
+            <li>HR 操作介面必須簡單直覺，不得有技術門檻</li>
+          </ul>
+        `
+      }
+    };
+
+    function openCodeProject(id) {
+      const project = codeProjects[id];
+      if (!project) return;
+      document.getElementById('code-project-content').innerHTML = `
+        <div class="page-title">${project.title}</div>
+        <div class="article-meta"><span>${project.date}</span></div>
+        <hr class="divider" />
+        ${project.content}
+      `;
+      document.getElementById('code-list-view').style.display = 'none';
+      document.getElementById('code-project-view').style.display = 'block';
+    }
+
+    function closeCodeProject() {
+      document.getElementById('code-project-view').style.display = 'none';
+      document.getElementById('code-list-view').style.display = 'block';
+    }
+
+    function renderBlog() {
+      const list = document.getElementById('blog-list');
+      list.innerHTML = posts.map(p => `
+        <div class="post-item">
+          <div class="post-date">${p.date}</div>
+          <div class="post-title">${p.title}</div>
+          <div class="post-content">${p.content}</div>
+        </div>
+      `).join('');
+    }
+
     function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('collapsed');
     }
@@ -344,11 +754,94 @@
       document.getElementById(id).classList.toggle('open');
     }
 
+    function renderPhotoAlbumList() {
+      const list = document.getElementById('photo-album-list');
+      list.innerHTML = photoAlbums.map(album => {
+        const coverHtml = album.cover
+          ? `<img class="album-card-cover" src="${album.cover}" alt="${album.title}" />`
+          : `<div class="album-card-cover-empty">📷</div>`;
+        return `
+          <div class="album-card" onclick="openPhotoAlbum('${album.id}')">
+            ${coverHtml}
+            <div class="album-card-body">
+              <div class="album-card-title">${album.title}</div>
+              <div class="album-card-desc">${album.description}</div>
+              <div class="album-card-count">${album.photos.length} 張照片</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openPhotoAlbum(id) {
+      const album = photoAlbums.find(a => a.id === id);
+      if (!album) return;
+      document.getElementById('photo-album-title').textContent = album.title;
+      document.getElementById('photo-album-desc').textContent = album.description;
+      document.getElementById('photo-album-grid').innerHTML = album.photos.map(p =>
+        `<img src="${p.src}" alt="${p.caption}" title="${p.caption}" />`
+      ).join('');
+      document.getElementById('photo-album-list-view').style.display = 'none';
+      document.getElementById('photo-album-detail-view').style.display = 'block';
+    }
+
+    function closePhotoAlbum() {
+      document.getElementById('photo-album-detail-view').style.display = 'none';
+      document.getElementById('photo-album-list-view').style.display = 'block';
+    }
+
+    function renderTechList() {
+      const list = document.getElementById('tech-list');
+      list.innerHTML = techPosts.map(p => `
+        <div class="tech-post-item" onclick="openTechArticle('${p.id}')">
+          <div class="post-date">${p.date}</div>
+          <div class="post-title">${p.title}</div>
+          <div class="post-author">${p.author}</div>
+        </div>
+      `).join('');
+    }
+
+    function openTechArticle(id) {
+      const post = techPosts.find(p => p.id === id);
+      if (!post) return;
+      document.getElementById('tech-article-content').innerHTML = `
+        <div class="page-title">${post.title}</div>
+        <div class="article-meta">
+          <span>${post.date}</span>
+          <span>${post.author}</span>
+        </div>
+        <hr class="divider" />
+        ${post.content}
+      `;
+      document.getElementById('tech-list-view').style.display = 'none';
+      document.getElementById('tech-article-view').style.display = 'block';
+    }
+
+    function closeTechArticle() {
+      document.getElementById('tech-article-view').style.display = 'none';
+      document.getElementById('tech-list-view').style.display = 'block';
+    }
+
+    function openDesignDoc() {
+      document.getElementById('design-intro').style.display = 'none';
+      document.getElementById('design-pdf').style.display = 'block';
+      document.getElementById('sidebar').classList.add('collapsed');
+    }
+
+    function closeDesignDoc() {
+      document.getElementById('design-pdf').style.display = 'none';
+      document.getElementById('design-intro').style.display = 'block';
+      document.getElementById('sidebar').classList.remove('collapsed');
+    }
+
     function showPage(name, link) {
       document.querySelectorAll('main section').forEach(s => s.style.display = 'none');
       document.getElementById('page-' + name).style.display = 'block';
       document.querySelectorAll('.menu-group-items a').forEach(a => a.classList.remove('active'));
       if (link) link.classList.add('active');
+      if (name === 'blog') renderBlog();
+      if (name === 'tech') renderTechList();
+      if (name === 'photo') renderPhotoAlbumList();
     }
   </script>
 
