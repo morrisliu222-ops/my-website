@@ -1,6 +1,7 @@
 name: 新增雜記
 description: 發布一篇生活雜記
 labels: [post]
+title: "今天..."
 body:
   - type: textarea
     id: content
