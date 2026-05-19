@@ -2,11 +2,10 @@ name: 新增生活雜記
 
 on:
   issues:
-    types: [labeled]
+    types: [opened]
 
 jobs:
   add-post:
-    if: github.event.label.name == 'post'
     runs-on: ubuntu-latest
     permissions:
       contents: write
