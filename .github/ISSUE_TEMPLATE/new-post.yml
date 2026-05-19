@@ -1,0 +1,18 @@
+name: 新增雜記
+description: 發布一篇生活雜記
+labels: [post]
+body:
+  - type: input
+    id: title
+    attributes:
+      label: 標題
+      placeholder: 今天發生了什麼事...
+    validations:
+      required: true
+  - type: textarea
+    id: content
+    attributes:
+      label: 內文
+      placeholder: 寫下你的想法...
+    validations:
+      required: true

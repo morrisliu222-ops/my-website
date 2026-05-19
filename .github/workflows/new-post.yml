@@ -1,0 +1,74 @@
+name: 新增生活雜記
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  add-post:
+    if: github.event.label.name == 'post'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 寫入新文章
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: |
+          python3 - <<'EOF'
+          import json, os
+          from datetime import datetime, timezone, timedelta
+
+          title = os.environ['ISSUE_TITLE']
+          content = os.environ['ISSUE_BODY'].strip()
+          date = (datetime.now(timezone(timedelta(hours=8)))).strftime('%Y-%m-%d')
+
+          title_js = json.dumps(title, ensure_ascii=False)
+          content_js = json.dumps(content, ensure_ascii=False)
+
+          new_entry = f"""  {{
+            title: {title_js},
+            date: "{date}",
+            content: {content_js}
+          }},"""
+
+          with open('posts.js', 'r', encoding='utf-8') as f:
+              text = f.read()
+
+          text = text.replace('const posts = [\n', f'const posts = [\n{new_entry}\n', 1)
+
+          with open('posts.js', 'w', encoding='utf-8') as f:
+              f.write(text)
+
+          print(f"Done: {title}")
+          EOF
+
+      - name: Commit & push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add posts.js
+          git commit -m "新增雜記：${{ github.event.issue.title }}"
+          git push
+
+      - name: 關閉 Issue 並留言
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: '文章已發布，Vercel 部署中...'
+            });
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              state: 'closed'
+            });
