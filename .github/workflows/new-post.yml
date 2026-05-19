@@ -24,7 +24,10 @@ jobs:
           from datetime import datetime, timezone, timedelta
 
           title = os.environ['ISSUE_TITLE']
-          content = os.environ['ISSUE_BODY'].strip()
+          raw = os.environ['ISSUE_BODY'].strip()
+          # GitHub issue form 會在內容前加 "### 內文\n\n"，把它去掉
+          import re
+          content = re.sub(r'^###\s*.+\n\n', '', raw, flags=re.MULTILINE).strip()
           date = (datetime.now(timezone(timedelta(hours=8)))).strftime('%Y-%m-%d')
 
           title_js = json.dumps(title, ensure_ascii=False)
