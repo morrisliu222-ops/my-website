@@ -1,5 +1,58 @@
 const techPosts = [
   {
+    id: "prompt-engineering-techniques",
+    title: "提示工程技巧總整理：8 個讓 AI 回答更精準的方法",
+    date: "2026-05-22",
+    author: "AI 生成文章",
+    content: `
+      <h2>基礎概念</h2>
+      <p>提示工程的核心原則：<strong>問題要限制清楚，思考過程要給空間。兩者不衝突。</strong></p>
+      <p>目前需要這些技巧，根本原因是 AI 缺乏上下文、不會主動追問、推理有時不穩定。這些技巧本質上是在補這些缺口。</p>
+
+      <h2>技巧一覽</h2>
+
+      <h3>1. Chain-of-Thought (CoT)</h3>
+      <p>要求 AI 一步一步說出推理過程，而不是直接給答案。適合複雜問題，能降低跳步出錯的機率。</p>
+      <blockquote>「請先列出這段程式的執行流程，再判斷每一步是否可能出錯，最後說明你的結論。」</blockquote>
+
+      <h3>2. Few-shot（少量示例）</h3>
+      <p>在提問時附上幾個輸入／輸出範例，讓 AI 直接模仿格式或風格，比用文字描述更直接有效。</p>
+      <blockquote>「幫我把標題改成口語風格。原本：深度學習模型訓練方法探討 → 改後：我是怎麼訓練 AI 模型的。現在處理這個：週末健行心得分享」</blockquote>
+
+      <h3>3. Role Prompting（角色設定）</h3>
+      <p>給 AI 一個身份，讓它從特定領域視角回答，採用對應的判斷標準。</p>
+      <blockquote>「你是一個有十年經驗的嵌入式工程師，請審查這段 ESP32 程式碼。」</blockquote>
+
+      <h3>4. Constraint Prompting（限制條件）</h3>
+      <p>明確說出不要什麼，比只說要什麼更有效。</p>
+      <blockquote>「解釋這個演算法，不要用數學符號，不要超過五句話。」</blockquote>
+
+      <h3>5. Output Format Prompting（指定輸出格式）</h3>
+      <p>直接描述期望的輸出結構，例如指定 JSON 欄位或段落格式。</p>
+      <blockquote>「用 JSON 格式回傳，欄位有 title、date、summary。」</blockquote>
+
+      <h3>6. Decomposition（任務分解）</h3>
+      <p>把大任務拆成多輪對話逐步完成，而不是一次塞給 AI。</p>
+      <blockquote>第一輪：「先列出這篇技術文章的大綱」→ 第二輪：「展開第二節」→ 第三輪：「幫第二節加入程式碼範例」</blockquote>
+
+      <h3>7. Self-Consistency（自我一致性）</h3>
+      <p>要 AI 從多個角度分析問題，再選最一致的結論。適合重要決策。</p>
+      <blockquote>「用三種不同角度分析這個架構設計，然後告訴我哪個角度最站得住腳。」</blockquote>
+
+      <h3>8. Reflection（反思提示）</h3>
+      <p>要 AI 檢查自己的輸出是否有誤，往往能觸發主動修正。</p>
+      <blockquote>「你剛才的回答有沒有哪些地方可能是錯的？」</blockquote>
+
+      <h2>永遠有效的基本功</h2>
+      <p>無論 AI 再進步，這三點不會過時：</p>
+      <ol>
+        <li>目標明確</li>
+        <li>給足背景</li>
+        <li>說清楚「成功的答案長什麼樣子」</li>
+      </ol>
+    `
+  },
+  {
     id: "claude-md-intro",
     title: "CLAUDE.md 是什麼？基本介紹與使用重點",
     date: "2026-05-18",
