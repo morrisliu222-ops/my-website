@@ -39,12 +39,12 @@ jobs:
             content: {content_js}
           }},"""
 
-          with open('posts.js', 'r', encoding='utf-8') as f:
+          with open('data/posts.js', 'r', encoding='utf-8') as f:
               text = f.read()
 
           text = text.replace('const posts = [\n', f'const posts = [\n{new_entry}\n', 1)
 
-          with open('posts.js', 'w', encoding='utf-8') as f:
+          with open('data/posts.js', 'w', encoding='utf-8') as f:
               f.write(text)
 
           print(f"Done: {title}")
@@ -54,7 +54,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add posts.js
+          git add data/posts.js
           git commit -m "新增雜記：${{ github.event.issue.title }}"
           git push
 

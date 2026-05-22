@@ -151,6 +151,9 @@
       display: flex;
       align-items: center;
       gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
     .toggle-btn {
@@ -520,7 +523,7 @@
       margin: 20px 0 8px;
     }
     .resume-group-label:first-of-type { margin-top: 0; }
-    .mobile-menu-btn { display: none; }
+    .mobile-menu-btn { display: none; font-size: 1.5rem; color: var(--accent); }
     .rc-pdf-summary { display: none; }
 
     .sidebar-backdrop {
@@ -663,6 +666,21 @@
               <h3>ESP32 室內外天氣站</h3>
               <p>結合 DHT11 感測器與 Open-Meteo API，即時顯示室內外溫濕度與降雨預報，內建 Web 設定介面。</p>
             </div>
+            <div class="card" style="cursor:pointer" onclick="openDesignProject('rtcclock')">
+              <div class="card-icon">🕐</div>
+              <h3>Arduino RTC 桌上時鐘</h3>
+              <p>DS3231 精準計時，LCD 交替顯示時間與 DHT11 溫溼度，蜂鳴器整點報時與每秒 tik-tak 節拍。</p>
+            </div>
+            <div class="card" style="cursor:pointer" onclick="openDesignProject('trafficlight')">
+              <div class="card-icon">🚦</div>
+              <h3>WiFi 紅綠燈控制器</h3>
+              <p>ESP32 自建 WiFi 熱點，手機瀏覽器透過 WebSocket 即時控制三色 LED，支援自動循環與多裝置同步。</p>
+            </div>
+            <div class="card" style="cursor:pointer" onclick="openDesignProject('irremote')">
+              <div class="card-icon">📡</div>
+              <h3>自製 IR 遙控器</h3>
+              <p>逆向解碼智慧馬桶原廠 IR 訊號，以 Arduino + OLED 重製，三顆實體按鈕切換八種功能並發射。</p>
+            </div>
           </div>
         </div>
         <div id="design-project-view" style="display:none">
@@ -676,7 +694,7 @@
           </div>
 
           <!-- 桌機：PDF iframe -->
-          <iframe class="rc-pdf-iframe" src="RC_Car_Technical_Report_v2_website.pdf" width="100%" height="800px" style="border:1px solid #e0e0e0;border-radius:8px"></iframe>
+          <iframe class="rc-pdf-iframe" src="docs/RC_Car_Technical_Report_v2_website.pdf" width="100%" height="800px" style="border:1px solid #e0e0e0;border-radius:8px"></iframe>
 
           <!-- 手機：文字摘要 -->
           <div class="rc-pdf-summary tech-article">
@@ -713,7 +731,7 @@
           </div>
 
           <!-- 下載按鈕 -->
-          <a href="RC_Car_Technical_Report_v2_website.pdf" download style="display:inline-block;margin-top:24px;padding:10px 20px;background:var(--accent);color:#fff;border-radius:8px;text-decoration:none;font-size:0.9rem">↓ 下載完整技術報告 PDF</a>
+          <a href="docs/RC_Car_Technical_Report_v2_website.pdf" download style="display:inline-block;margin-top:24px;padding:10px 20px;background:var(--accent);color:#fff;border-radius:8px;text-decoration:none;font-size:0.9rem">↓ 下載完整技術報告 PDF</a>
         </div>
       </section>
 
@@ -893,9 +911,9 @@
     <footer>&copy; 2026 我的網站 · 由 Vercel 託管</footer>
   </div>
 
-  <script src="posts.js"></script>
-  <script src="tech-posts.js"></script>
-  <script src="photo-albums.js"></script>
+  <script src="data/posts.js"></script>
+  <script src="data/tech-posts.js"></script>
+  <script src="data/photo-albums.js"></script>
   <script>
     const codeProjects = {
       payroll: {
@@ -1170,6 +1188,111 @@
           <ul>
             <li>v1.0 — 基本 DHT 顯示 + 固定 Wi-Fi 帳密</li>
             <li>v2.0 — 新增 Flash 設定儲存、內建 Web Server、AP 備援模式、LCD 顯示 IP 頁</li>
+          </ul>
+        `
+      },
+      rtcclock: {
+        title: 'Arduino RTC 桌上時鐘',
+        date: '2026-05-22',
+        content: `
+          <h2>一、專案簡介</h2>
+          <p>以 Arduino Uno 為核心製作的桌上型多功能時鐘，結合硬體 RTC 模組、溫溼度感測器與蜂鳴器，實現精準計時、環境感測與音效報時，不依賴網路或主機，純離線獨立運作。</p>
+          <p>LCD 畫面每 5 秒自動輪替，前半段顯示即時日期與時間，後半段顯示當前溫度與溼度。蜂鳴器整點播放五音音階旋律（Do-Mi-Sol-Mi-Do），半點以雙音提示，每秒發出 tik-tak 節拍聲模擬實體時鐘的觸感。</p>
+
+          <h2>二、硬體規格</h2>
+          <ul>
+            <li>主控板：Arduino Uno</li>
+            <li>計時模組：DS3231 RTC（I2C 介面，精度 ±2ppm，內建溫度補償）</li>
+            <li>顯示器：16x2 字元型 LCD（I2C 位址 0x27）</li>
+            <li>感測器：DHT11 溫溼度感測器（接 GPIO 7）</li>
+            <li>音效輸出：被動式蜂鳴器（接 GPIO 8）</li>
+          </ul>
+
+          <h2>三、核心功能</h2>
+          <ul>
+            <li>LCD 每 5 秒切換：0–4 秒顯示年月日 + 時分秒，5–9 秒顯示溫度與溼度</li>
+            <li>DHT11 每 2 秒讀取一次，避免感測器過熱影響精度</li>
+            <li>整點報時：C4→E4→G4→E4→C4 五音上下行，每音 150ms</li>
+            <li>半點提示：G4→E4 雙音下行</li>
+            <li>每秒 tik-tak：1800Hz（8ms）與 1200Hz（12ms）交替，以靜態變數切換</li>
+          </ul>
+
+          <h2>四、技術重點</h2>
+          <ul>
+            <li>語言 / 平台：C++（Arduino 框架）</li>
+            <li>函式庫：Wire、LiquidCrystal_I2C、RTClib、DHT sensor library</li>
+            <li>對時方式：燒錄時取消 rtc.adjust() 的註解，以編譯時間 +6 秒寫入，完成後再註解回</li>
+            <li>DS3231 帶電池備援，斷電後仍維持計時</li>
+          </ul>
+        `
+      },
+      trafficlight: {
+        title: 'ESP32 WiFi 紅綠燈控制器',
+        date: '2026-05-22',
+        content: `
+          <h2>一、專案簡介</h2>
+          <p>以 ESP32 製作可透過手機或電腦瀏覽器即時控制的 WiFi 紅綠燈。主控板自建熱點（AP 模式），不依賴外部路由器，連上熱點即可操作。多個瀏覽器同時連線時，所有畫面狀態即時同步。</p>
+
+          <h2>二、硬體規格</h2>
+          <ul>
+            <li>主控板：ESP32（NodeMCU-32S 或相容板）</li>
+            <li>紅色 LED → GPIO 25，黃色 LED → GPIO 26，綠色 LED → GPIO 27</li>
+            <li>供電：USB 5V</li>
+          </ul>
+
+          <h2>三、核心功能</h2>
+          <ul>
+            <li>手動控制：單燈切換（紅 / 黃 / 綠）、全亮、全滅</li>
+            <li>自動循環模式：紅→黃→綠→全滅，每 2 秒切換一次（非阻塞設計）</li>
+            <li>鍵盤快捷鍵：R / Y / G 鍵直接切換（桌機瀏覽器）</li>
+            <li>多裝置同步：任一操作後 ESP32 廣播最新狀態，所有連線頁面同步更新</li>
+          </ul>
+
+          <h2>四、技術重點</h2>
+          <ul>
+            <li>語言 / 平台：C++（Arduino 框架，ESP32 板型）</li>
+            <li>函式庫：WiFi、WebServer（port 80）、WebSocketsServer（port 81）</li>
+            <li>網路：softAP 模式，固定 IP 192.168.4.1</li>
+            <li>訊息協定：純文字指令（red / yellow / green / all / off / auto）；狀態回傳為三位元字串如 "100"</li>
+            <li>Web UI 完整嵌入韌體（PROGMEM），無需外部伺服器；CSS glow 效果模擬燈泡發光</li>
+            <li>自動模式以 millis() + autoStep 變數實作，不阻塞 HTTP / WebSocket 服務</li>
+          </ul>
+        `
+      },
+      irremote: {
+        title: '自製 IR 遙控器（智慧馬桶）',
+        date: '2026-05-22',
+        content: `
+          <h2>一、專案簡介</h2>
+          <p>原廠智慧馬桶座遙控器損壞，透過 IR 接收模組解碼原廠 NEC 紅外線訊號後，以 Arduino Uno + IR LED 重製全部功能。成品具備 OLED 螢幕與三顆實體按鈕，切換八種功能並一鍵發射，不需記憶任何按鈕組合。</p>
+
+          <h2>二、硬體規格</h2>
+          <ul>
+            <li>主控板：Arduino Uno</li>
+            <li>IR LED：940nm（GPIO 9，搭配電晶體驅動提升功率）</li>
+            <li>顯示器：SH1106 OLED 128×64（I2C 介面）</li>
+            <li>按鈕：GPIO 6（向前切換）、GPIO 7（發射）、GPIO 8（向後切換）</li>
+            <li>指示 LED：GPIO 10，發射時閃爍</li>
+          </ul>
+
+          <h2>三、支援指令</h2>
+          <ul>
+            <li>Flush（沖水）</li>
+            <li>Open Lid / Close Lid（開蓋 / 關蓋）</li>
+            <li>Open+Seat（開蓋並升起馬桶座）</li>
+            <li>Front Wash / Rear Wash（前洗 / 後洗）</li>
+            <li>Dry（烘乾）</li>
+            <li>Stop（停止）</li>
+          </ul>
+          <p>每個指令連發兩組 32-bit NEC Raw 碼（原廠協定需雙發），兩組末兩 bytes 略有差異。</p>
+
+          <h2>四、技術重點</h2>
+          <ul>
+            <li>語言 / 平台：C++（Arduino 框架）</li>
+            <li>函式庫：IRremote v4+、Wire、U8g2（SH1106 驅動）</li>
+            <li>逆向工程：以 IRrecvDump 範例捕獲原廠 IR 時序，識別為 NEC Extended 格式後硬編碼重播</li>
+            <li>按鈕去彈跳：軟體延遲 20ms + 等待放開，確保每次只觸發一次</li>
+            <li>OLED 顯示：上半部顯示當前選擇功能，下半部顯示上次執行動作，Page-by-Page 模式避免閃爍</li>
           </ul>
         `
       }
