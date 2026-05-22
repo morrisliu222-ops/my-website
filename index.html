@@ -746,6 +746,11 @@
               <h3>工廠薪資計算系統</h3>
               <p>Python + Flask + SQLite 單機薪資管理系統，支援出勤匯入、自動計算加班費與勞健保，並可匯出薪資條 PDF 與銀行轉帳 Excel。</p>
             </div>
+            <div class="card" style="cursor:pointer;min-width:260px;max-width:340px" onclick="openCodeProject('dataConverter')">
+              <div class="card-icon">⚡</div>
+              <h3>量測資料批次轉換工具</h3>
+              <p>Python + Tkinter + openpyxl 桌面應用程式，自動辨識多種文字資料格式並批次轉換為格式化 Excel，作業時間從 10 分鐘縮短至 1 分鐘，效率提升 10 倍以上。</p>
+            </div>
           </div>
         </div>
         <div id="code-project-view" style="display:none">
@@ -1024,6 +1029,62 @@
             <li>資料只標記狀態，不做物理刪除</li>
             <li>所有規則參數存於資料庫，不寫死在程式碼</li>
             <li>HR 操作介面必須簡單直覺，不得有技術門檻</li>
+          </ul>
+        `
+      },
+      dataConverter: {
+        title: '量測資料批次轉換工具',
+        date: '2026-05-22',
+        content: `
+          <h2>一、專案背景</h2>
+          <p>原始轉檔流程需人工逐一開啟檔案、複製數據、貼入試算表，單次作業約需 10 分鐘，且易因人工操作產生錯誤。開發本工具將流程全面自動化，作業時間縮短至約 1 分鐘，效率提升 10 倍以上，且檔案數量越多效益越顯著；同時消除人工貼值的可靠度疑慮。</p>
+
+          <h2>二、核心功能</h2>
+          <p>多檔案批次資料轉換器，讀取多種格式的純文字資料檔（TXT / CSV）及試算表檔（XLSX），自動辨識資料格式、解析數值欄位，整合輸出成格式化的 Excel 工作簿。</p>
+
+          <h2>三、技術架構</h2>
+          <ul>
+            <li>語言：Python 3</li>
+            <li>GUI：tkinter</li>
+            <li>Excel 讀寫：openpyxl</li>
+            <li>相依套件：tkinter、openpyxl、csv、pathlib、os、subprocess</li>
+            <li>執行環境：Windows 單機，無需安裝額外環境</li>
+          </ul>
+
+          <h2>四、程式架構設計（三層）</h2>
+          <h3>1. 基底類別 BaseConverter</h3>
+          <ul>
+            <li>建立 Excel 工作簿並設定文件屬性（openpyxl）</li>
+            <li>統一管理字型（Arial）、框線、儲存格填色樣式</li>
+            <li>提供通用列寫入方法，支援數值格式套用（固定小數位 / 科學記號）</li>
+            <li>提供字串轉浮點數的安全解析函式</li>
+          </ul>
+          <h3>2. 子類別 Type1Converter（多格式合併轉換器）</h3>
+          <ul>
+            <li>依文字檔第一行自動辨識六種格式類型（樣品量測格式、計算後結果格式、空載格式A/B、空載掃描格式、未知格式）</li>
+            <li>CSV 格式直接逐列寫入；XLSX 格式插入黃色標記列後原樣嵌入</li>
+            <li>可選「每檔重複表頭」或「全部共用一個表頭」</li>
+            <li>可選彩色交替行表格樣式</li>
+          </ul>
+          <h3>3. 子類別 Type2Converter（單一系列彙整轉換器）</h3>
+          <ul>
+            <li>處理三種子格式的純文字檔，自動從各子格式提取對應數值欄位</li>
+            <li>所有檔案整合至同一工作表連續列</li>
+            <li>可選彩色表格樣式</li>
+          </ul>
+          <h3>4. GUI 類別 DataConverterApp（Tkinter 介面）</h3>
+          <ul>
+            <li>模式切換：Type1 模式 vs Type2 模式</li>
+            <li>多選檔案加入清單、刪除（支援 Delete 鍵）</li>
+            <li>上移／下移調整處理順序（支援左右方向鍵）</li>
+            <li>「表頭重複」與「彩色表格」開關（綠／紅視覺回饋）</li>
+            <li>轉換完成後自動開啟輸出目錄（Windows os.startfile）</li>
+          </ul>
+
+          <h2>五、輸入 / 輸出規格</h2>
+          <ul>
+            <li>輸入：.txt（cp950）、.csv（cp950 / utf-8-sig）、.xlsx / .xls、無副檔名文字檔</li>
+            <li>輸出：單張工作表 Excel（.xlsx），套用字型、框線、數值格式，可選彩色表格</li>
           </ul>
         `
       }
