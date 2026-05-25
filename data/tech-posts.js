@@ -1,5 +1,259 @@
 const techPosts = [
   {
+    id: "scada-database-architecture",
+    title: "SCADA 資料庫架構：Medallion Architecture 三層 11 種資料庫全解析",
+    date: "2026-05-25",
+    author: "Morris",
+    content: `
+      <h2>核心框架：Medallion Architecture（三層）</h2>
+      <p>工業資料從現場到決策，流經三層：</p>
+      <pre>Bronze → Silver → Gold
+原始層 → 加工層 → 分析層</pre>
+      <p><strong>重要前提</strong>：這個框架只描述「流動的操作資料」，不涵蓋基礎設施（訊息佇列）和設備管理（PLC備份）。</p>
+
+      <h2>Layer 1：Bronze 原始層</h2>
+      <p><strong>定義</strong>：從來源直接採集，未經任何轉換或彙總的原始資料。</p>
+      <p>資料特徵：有原始時間戳記、未清洗未計算、量最大最細緻、一旦寫入不應修改。</p>
+
+      <h3>1. 即時資料庫（Real-time / In-Memory DB）</h3>
+      <ul>
+        <li><strong>存什麼</strong>：所有 Tag 的當前值（只有最新一筆）</li>
+        <li><strong>生命週期</strong>：斷電即消失</li>
+        <li><strong>典型技術</strong>：Redis / 自建記憶體結構</li>
+        <li><strong>概念定位</strong>：系統的「工作記憶」</li>
+        <li><em>注意：這不是歷史資料，只記錄「現在」。</em></li>
+      </ul>
+
+      <h3>2. 時序資料庫 / Historian</h3>
+      <ul>
+        <li><strong>存什麼</strong>：每個 Tag 每一個時間點的原始數值</li>
+        <li><strong>生命週期</strong>：永久保存（數年至數十年）</li>
+        <li><strong>資料量</strong>：極大（每天數千萬筆）</li>
+        <li><strong>典型技術</strong>：OSIsoft PI / InfluxDB / TimescaleDB</li>
+        <li><strong>概念定位</strong>：系統的「黑盒子」</li>
+        <li><em>注意：Historian 本身可能同時存 Layer 1（原始值）和 Layer 2（計算彙總值），需區分兩類資料。</em></li>
+      </ul>
+
+      <h3>3. 事件 / 警報資料庫（Event / Alarm DB）</h3>
+      <ul>
+        <li><strong>存什麼</strong>：警報觸發/確認記錄、操作員動作、系統事件</li>
+        <li><strong>特性</strong>：不可竄改、可稽核</li>
+        <li><strong>典型技術</strong>：PostgreSQL（加審計觸發器）</li>
+        <li><strong>概念定位</strong>：系統的「操作日誌」</li>
+        <li><em>Layer 1 = 原始事件（發生了什麼、何時）；Layer 2 = 事件分析（這批警報代表什麼問題）</em></li>
+      </ul>
+
+      <h3>4. 資安審計日誌（Security Audit Log）</h3>
+      <ul>
+        <li><strong>存什麼</strong>：登入/登出記錄、存取嘗試、指令歷史、網路事件</li>
+        <li><strong>特性</strong>：與事件資料庫分開存放、更高防竄改要求</li>
+        <li><strong>法規依據</strong>：IEC 62443 強制要求</li>
+        <li><strong>典型技術</strong>：獨立 Syslog Server / SIEM 系統</li>
+        <li><strong>概念定位</strong>：系統的「監視錄影」</li>
+        <li><em>為何獨立：資安事件不能由被入侵的系統自己管理。</em></li>
+      </ul>
+
+      <h2>Layer 2：Silver 加工層</h2>
+      <p><strong>定義</strong>：對 Layer 1 的原始資料進行彙總、計算、賦予製程情境。</p>
+      <p>資料特徵：有製程意義、經過計算或彙總、量比 Layer 1 小、可直接讓工程師/管理者理解。</p>
+
+      <h3>5. 彙總時序資料（Aggregated Historian）</h3>
+      <ul>
+        <li><strong>存什麼</strong>：每小時均值、每日最大/最小/平均、標準差</li>
+        <li><strong>來源</strong>：由 Layer 1 Historian 計算而來</li>
+        <li><strong>概念</strong>：「這一小時的溫度概況」</li>
+      </ul>
+
+      <h3>6. 批次記錄資料庫（Batch Record DB）</h3>
+      <ul>
+        <li><strong>存什麼</strong>：每一批產品的完整製程紀錄（原料批號、製程參數、時間軸、操作員、結果）</li>
+        <li><strong>概念</strong>：「這批產品是在什麼條件下生產的」</li>
+        <li><strong>典型技術</strong>：PostgreSQL / 專用 Batch MES DB</li>
+        <li><em>製藥/食品產業的法規核心要求。</em></li>
+      </ul>
+
+      <h3>7. KPI 計算資料庫</h3>
+      <ul>
+        <li><strong>存什麼</strong>：OEE（設備綜合效率）、良率、能耗、生產速率</li>
+        <li><strong>概念</strong>：「這條線今天表現如何」</li>
+        <li><em>已經有業務意義，但還不是最終報表。</em></li>
+      </ul>
+
+      <h3>8. 品質統計資料庫（SPC / Quality DB）</h3>
+      <ul>
+        <li><strong>存什麼</strong>：管制圖資料、Cpk、製程能力指標、不良品記錄</li>
+        <li><strong>概念</strong>：「製程是否在統計管制內」</li>
+        <li><strong>典型技術</strong>：專用 SPC 軟體 DB / PostgreSQL</li>
+      </ul>
+
+      <h2>Layer 3：Gold 分析層</h2>
+      <p><strong>定義</strong>：整合多來源資料，轉化為可直接支援業務決策的形式。</p>
+      <p>資料特徵：跨系統整合（SCADA + ERP + 品質 + 財務）、有業務貨幣化意義、量最小密度最高、給管理層和決策者使用。</p>
+
+      <h3>9. 資料倉儲（Data Warehouse）</h3>
+      <ul>
+        <li><strong>存什麼</strong>：跨系統整合後的歷史資料（SCADA + ERP + 品質 + 財務）</li>
+        <li><strong>概念</strong>：「公司所有數字的統一來源」</li>
+        <li><strong>典型技術</strong>：Snowflake / BigQuery / SQL Server DW</li>
+      </ul>
+
+      <h3>10. 報表 / BI 資料庫</h3>
+      <ul>
+        <li><strong>存什麼</strong>：預先計算好的報表資料、儀表板指標</li>
+        <li><strong>概念</strong>：「主管看的數字」</li>
+        <li><strong>典型技術</strong>：Grafana / Power BI / Tableau（連接 DW）</li>
+      </ul>
+
+      <h3>11. ML 特徵資料庫（Feature Store）</h3>
+      <ul>
+        <li><strong>存什麼</strong>：為機器學習模型準備好的特徵資料</li>
+        <li><strong>概念</strong>：「餵給 AI 模型的食材」</li>
+        <li><strong>用途</strong>：預測性維護、異常偵測、良率預測</li>
+      </ul>
+
+      <h2>資料流向總覽</h2>
+      <pre>現場設備
+   ↓
+[Layer 0：邊緣緩衝]      ← 不屬於 Medallion，是來源端
+   ↓
+[傳輸：訊息佇列]          ← 不屬於 Medallion，是管道
+   ↓
+Layer 1 Bronze（四種）
+   ├─ 即時資料庫          ← 當前值，給控制和 HMI 用
+   ├─ Historian           ← 原始歷史，永久保存
+   ├─ 事件資料庫          ← 原始警報操作記錄
+   └─ 資安審計日誌        ← 原始安全事件
+   ↓ 彙總、計算、賦予情境
+Layer 2 Silver（四種）
+   ├─ 彙總時序資料        ← 小時/天的統計
+   ├─ 批次記錄            ← 每批產品的故事
+   ├─ KPI 計算            ← OEE、良率、效率
+   └─ 品質統計 SPC        ← 製程管制狀態
+   ↓ 整合、萃取
+Layer 3 Gold（三種）
+   ├─ 資料倉儲            ← 跨系統整合
+   ├─ 報表/BI             ← 管理層儀表板
+   └─ ML 特徵庫           ← AI 模型輸入</pre>
+
+      <h2>三個平行關切（不屬於 Medallion 資料流）</h2>
+      <p>這三類常被混入 Medallion 框架，但它們是獨立的關切面，不要混為一談：</p>
+      <ul>
+        <li><strong>資料流架構</strong>（Medallion L1/L2/L3）：操作資料如何流動</li>
+        <li><strong>傳輸基礎設施</strong>（Pipeline）：訊息佇列、邊緣緩衝、網路/防火牆</li>
+        <li><strong>設備管理</strong>（DevOps）：PLC 程式備份、HMI 專案備份、設備參數備份、版本控制</li>
+      </ul>
+      <p><strong>參考資料</strong>（橫跨所有層，提供情境，本身不流動）：組態資料庫（Tag定義、設備清單、警報設定）、使用者帳號與權限資料庫。</p>
+
+      <h2>對應工業標準 ISA-95 / IEC 62264</h2>
+      <ul>
+        <li><strong>Layer 3 Gold</strong> ↔ Level 4：ERP / 企業管理</li>
+        <li><strong>Layer 2 Silver</strong> ↔ Level 3：MES / 製造執行</li>
+        <li><strong>Layer 1 Bronze</strong> ↔ Level 1–2：SCADA / PLC / DCS</li>
+      </ul>
+    `
+  },
+  {
+    id: "scada-data-centric-architecture",
+    title: "SCADA 核心觀念：資料驅動架構（Data-Centric Architecture）",
+    date: "2026-05-25",
+    author: "Morris",
+    content: `
+      <h2>最重要的觀念：打破程式導向思維</h2>
+      <p>學 SCADA 時最需要建立的認知轉換：</p>
+      <ul>
+        <li><strong>傳統程式思維</strong>：Code 是主體，資料跟著流動。<code>main()</code> → 邏輯流動 → 產生資料</li>
+        <li><strong>SCADA 思維</strong>：Data 是主體，程式碼是反應者。Tag 資料庫（中心）← 所有服務圍著它轉</li>
+      </ul>
+
+      <h2>Tag 即時資料庫：SCADA 的真正主體</h2>
+      <ul>
+        <li>所有當前值都存在這裡（TIC-001=87.3°C, P-001=RUNNING...）</li>
+        <li>沒有任何服務直接跟另一個服務說話</li>
+        <li>全部透過 Tag 資料庫溝通</li>
+        <li>這是系統的「<strong>單一資料來源</strong>」(Single Source of Truth)</li>
+      </ul>
+
+      <h2>運作模式：發布 / 訂閱（Pub/Sub）</h2>
+      <p><strong>發布者（寫資料）</strong>：掃描引擎 → 從現場設備讀值 → 更新 Tag 資料庫</p>
+      <p><strong>訂閱者（監視資料，自動反應）</strong>：</p>
+      <ul>
+        <li>警報引擎 → 監視 Tag 值是否超限 → 觸發警報</li>
+        <li>Historian → 監視所有 Tag 變化 → 寫入歷史資料庫</li>
+        <li>HMI → 監視畫面上的 Tag → 推送更新給操作員</li>
+      </ul>
+      <p><em>重點：沒有人等指令，每個服務都在「監視」，自動反應。</em></p>
+
+      <h2>工廠類比：中央看板</h2>
+      <p>不是「班長發號施令 → 工人執行」的模式，而是「<strong>中央看板 → 所有人看著它行動</strong>」：</p>
+      <ul>
+        <li><strong>看板顯示槽A溫度 87°C</strong> → 操作員繼續觀察、自動控制不動作、記錄員寫日誌、警報系統不響</li>
+        <li><strong>看板顯示槽A溫度 91°C（超限）</strong> → 四個角色同時有反應，但沒有人「指揮」另一個人，每個角色根據自己的規則反應</li>
+      </ul>
+      <blockquote>Tag 資料庫 = 中央看板</blockquote>
+
+      <h2>軟體服務架構</h2>
+      <pre>           [ Tag 即時資料庫 ]
+                  ↑↓
+  ┌──────────┬────┴────┬──────────┐
+  │          │         │          │
+掃描引擎  警報引擎  Historian    HMI
+(寫入)  (讀取/反應) (讀取/記錄) (讀取/顯示)</pre>
+      <ul>
+        <li><strong>掃描引擎</strong>：SCADA的心跳，每N秒問一次現場設備</li>
+        <li><strong>警報引擎</strong>：監控數值，判斷是否超限，產生通知</li>
+        <li><strong>Historian</strong>：把每個時間點的數值永久記錄到歷史DB</li>
+        <li><strong>HMI服務</strong>：提供操作員介面，即時顯示數值</li>
+        <li><strong>API服務</strong>：讓外部系統（MES/ERP）來存取資料</li>
+      </ul>
+
+      <h2>資料架構三層模型（Medallion Architecture）</h2>
+      <p>工業資料從現場到決策，共經過三層處理：</p>
+      <ul>
+        <li><strong>Layer 1 Bronze — 原始層/操作層</strong>：發生了什麼？「TIC-001 在 14:32:05 是 87.3°C」，原始、精確、量大、不加詮釋</li>
+        <li><strong>Layer 2 Silver — 情境層/加工層</strong>：這代表什麼？「下午班的平均溫度比昨天同時段高 1.2°C」，有情境、有比較基準</li>
+        <li><strong>Layer 3 Gold — 分析層/商業層</strong>：對業務有什麼影響？「本週能源效率下降 3%，預估月底超出預算」，可以直接做決策</li>
+      </ul>
+      <p>對應工業標準 ISA-95：Layer 1 Bronze ↔ Level 1-2 SCADA/PLC、Layer 2 Silver ↔ Level 3 MES、Layer 3 Gold ↔ Level 4 ERP。</p>
+      <p><em>Layer 1 四種資料庫的詳細展開，請見「SCADA 資料庫架構」篇。</em></p>
+
+      <h2>常見混淆：不屬於 Medallion 資料流的三類</h2>
+      <ul>
+        <li><strong>組態資料庫</strong>：參考資料（Reference Data），描述系統，不流動</li>
+        <li><strong>訊息佇列</strong>：傳輸基礎設施（Pipeline），資料的輸送帶，非終點</li>
+        <li><strong>邊緣緩衝</strong>：Layer 0 來源端，資料進入系統之前的暫存</li>
+        <li><strong>設備組態備份</strong>：DevOps 範疇，PLC程式/設備參數，與資料流無關</li>
+      </ul>
+
+      <h2>為什麼這樣設計？</h2>
+      <ul>
+        <li>任何功能掛掉不影響其他功能 → 沒有單一主體</li>
+        <li>24小時不停機 → 各服務可獨立重啟</li>
+        <li>功能可以擴充 → 加新服務只要接上 Tag DB</li>
+        <li>多系統存取同一份資料 → 資料是中心，單一來源</li>
+      </ul>
+
+      <h2>商業 SCADA 平台（Ignition / WinCC）的做法</h2>
+      <ul>
+        <li><strong>外表</strong>：一個 SCADA Server 執行檔（看起來像有主體）</li>
+        <li><strong>內部</strong>：仍然是各模組圍著共享 Tag DB 運作</li>
+      </ul>
+      <p>差別只是：自建系統各服務是獨立的程式/容器；商業平台各模組包在同一個執行檔裡。</p>
+
+      <h2>關鍵風險點（SPOF）</h2>
+      <p>Tag 資料庫本身是整個架構的最大弱點（Single Point of Failure）。解決方案：</p>
+      <ul>
+        <li>使用高可用性的 In-Memory DB（如 Redis Cluster）</li>
+        <li>Active-Standby 熱備援，主DB失效自動切換</li>
+        <li>各服務本地緩存最後一筆數值，短暫斷線不影響</li>
+      </ul>
+
+      <h2>心像更新</h2>
+      <p><strong>舊心像（程式導向）</strong>：<code>main()</code> 控制一切 → 資料跟著流動</p>
+      <p><strong>正確心像（資料導向）</strong>：Tag 資料庫是中心，各服務圍著它，各司其職，資料的「變化」驅動所有行為。</p>
+      <p>對應製程直覺：就像生產線的「即時狀態」是中心，操作員、自控系統、記錄系統都在看同一份「現場狀態」，然後各自做自己該做的事。</p>
+    `
+  },
+  {
     id: "prompt-engineering-techniques",
     title: "提示工程技巧總整理：8 個讓 AI 回答更精準的方法",
     date: "2026-05-22",
