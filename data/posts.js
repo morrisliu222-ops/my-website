@@ -1,5 +1,10 @@
 const posts = [
   {
+  title: "價值1050元的鐵片",
+  date: "2026-05-25",
+  content: "<img width=\"3024\" height=\"4032\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/4340f73b-bded-477c-a52b-f517b55db554\" />"
+},
+  {
   title: "早餐店旁邊的公園",
   date: "2026-05-25",
   content: "太晚吃早餐的話就不會遇到幸運狗狗畫面了"
