@@ -313,6 +313,17 @@
       margin: 8px 0;
     }
 
+    .img-error {
+      display: inline-block;
+      padding: 6px 12px;
+      background: #fff8e1;
+      border: 1px solid #ffe082;
+      border-radius: 6px;
+      color: #888;
+      font-size: 0.85rem;
+      margin: 8px 0;
+    }
+
     .album-list {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -1125,6 +1136,14 @@
           <div class="post-content">${p.content}</div>
         </div>
       `).join('');
+      list.querySelectorAll('.post-content img').forEach(img => {
+        img.onerror = function() {
+          const placeholder = document.createElement('div');
+          placeholder.className = 'img-error';
+          placeholder.textContent = '⚠️ 圖片載入失敗';
+          this.replaceWith(placeholder);
+        };
+      });
     }
 
     function toggleSidebar() {
