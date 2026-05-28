@@ -2,7 +2,7 @@ const posts = [
   {
   title: "一隻機器狗",
   date: "2026-05-28",
-  content: "如果我去買一台電腦，模擬一個機器狗，好像可以學到一點東西，應該比scada有用\n\n<img width=\"480\" height=\"480\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/9fdd347b-f98e-4f40-83c5-d9eba9578437\" />"
+  content: "如果我去買一台電腦，模擬一個機器狗，好像可以學到一點東西，應該比scada有用"
 },
   {
   title: "現在年輕人2",
@@ -13,11 +13,6 @@ const posts = [
   title: "現在年輕人",
   date: "2026-05-28",
   content: "會用這句話當開頭的人，很可惜.\n我也不知道他們是嫉妒又或是自卑？\n是惋惜自己的過去？\n還是他們只是在汪汪叫.\n\n這種言論快要跟37度熱天還把老鼠狗拴在門外一樣討厭"
-},
-  {
-  title: "價值1050元的鐵片",
-  date: "2026-05-25",
-  content: "<img width=\"3024\" height=\"4032\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/4340f73b-bded-477c-a52b-f517b55db554\" />"
 },
   {
   title: "早餐店旁邊的公園",
