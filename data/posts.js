@@ -1,5 +1,10 @@
 const posts = [
   {
+  title: "現在年輕人",
+  date: "2026-05-28",
+  content: "會用這句話當開頭的人，很可惜.\n我也不知道他們是嫉妒又或是自卑？\n是惋惜自己的過去？\n還是他們只是在汪汪叫.\n\n這種言論快要跟37度熱天還把老鼠狗拴在門外一樣討厭"
+},
+  {
   title: "價值1050元的鐵片",
   date: "2026-05-25",
   content: "<img width=\"3024\" height=\"4032\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/4340f73b-bded-477c-a52b-f517b55db554\" />"
