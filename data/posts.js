@@ -1,5 +1,10 @@
 const posts = [
   {
+  title: "一隻機器狗",
+  date: "2026-05-28",
+  content: "如果我去買一台電腦，模擬一個機器狗，好像可以學到一點東西，應該比scada有用\n\n<img width=\"480\" height=\"480\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/9fdd347b-f98e-4f40-83c5-d9eba9578437\" />"
+},
+  {
   title: "現在年輕人2",
   date: "2026-05-28",
   content: "現在年輕人不想上班.\n現在年輕人不想結婚.\n現在年輕人不想買房子.\n現在年輕人……\n\n現在有一種老人，整天只會自以為很強，不聽別人講話，不願意進步，不願意學習，不願意改進，整天只會汪汪叫\n\n汪汪汪汪汪汪汪"
